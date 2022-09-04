@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GoCheeta - Test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script>
+            const url = "http://localhost:8080/gocheeta-rest/customers/"; 
+            function getCustomer() {
+                let email = document.getElementById("txtEmail").value;
+                
+                const options = {
+                    method: "GET"
+                };
+                
+                fetch(url + email, options)
+                        .then(res => res.json()) //covert response to json
+                        .then(data => {
+                            document.getElementById("txtPassword").value = data.password;
+                            document.getElementById("txtName").value = data.name;
+                            document.getElementById("txtBranch").value = data.branch;
+                            document.getElementById("txtTele").value = data.telephone;
+                            document.getElementById("txtTrips").value = data.noOfTrips;
+                            document.getElementById("txtStatus").value = data.status;
+                });   
+            }
+            
+            function clearCustomer() {
+                document.getElementById("txtEmail").value = "";
+                document.getElementById("txtPassword").value = "";
+                document.getElementById("txtName").value = "";
+                document.getElementById("txtBranch").value = "";
+                document.getElementById("txtTele").value = "";
+                document.getElementById("txtTrips").value = "";
+                document.getElementById("txtStatus").value = "";
+            }
+            
+            function addCustomer() {
+                const person = {
+                    "email" : document.getElementById("txtEmail").value,
+                    "password" : document.getElementById("txtPassword").value,
+                    "name" : document.getElementById("txtName").value,
+                    "branch" : document.getElementById("txtBranch").value,
+                    "telephone" : document.getElementById("txtTele").value,
+                    "noOfTrips" : parseInt(document.getElementById("txtTrips").value),
+                    "status" : document.getElementById("txtStatus").value
+                };
+                
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(person)
+                };
+                fetch(url, options);
+            }
+            
+            function updateCustomer() {
+                const person = {
+                    "email" : document.getElementById("txtEmail").value,
+                    "password" : document.getElementById("txtPassword").value,
+                    "name" : document.getElementById("txtName").value,
+                    "branch" : document.getElementById("txtBranch").value,
+                    "telephone" : document.getElementById("txtTele").value,
+                    "noOfTrips" : parseInt(document.getElementById("txtTrips").value),
+                    "status" : document.getElementById("txtStatus").value
+                };
+                
+                const options = {
+                    method: "PUT",
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(person)
+                };
+                fetch(url, options);
+            }
+            
+            function deleteCustomer() {
+                let email = document.getElementById("txtEmail").value;
+                const options = {
+                    method: "DELETE"
+                };
+                fetch(url + email, options);
+            }
+        </script>
+    </head>
+    <body>
+        Email : <input type="text" id="txtEmail" />
+        Password : <input type="text" id="txtPassword" />
+        Name : <input type="text" id="txtName" />
+        Branch : <input type="text" id="txtBranch" />
+        <br />        <br />
+        Telephone : <input type="text" id="txtTele" />
+        No of Trips : <input type="text" id="txtTrips" />
+        Status : <input type="text" id="txtStatus" />
+        <br />        <br />
+        <button id="btnGetCustomer" onclick="getCustomer()">Get Customer</button>
+        <button id="btnAddCustomer" onclick="addCustomer()">Add Customer</button>
+        <button id="btnUpdateCustomer" onclick="updateCustomer()">Update Customer</button>
+        <button id="btnDeleteCustomer" onclick="deleteCustomer()">Delete Customer</button>
+        <button id="btnClearCustomer" onclick="clearCustomer()()">Clear</button>
+    </body>
+</html>

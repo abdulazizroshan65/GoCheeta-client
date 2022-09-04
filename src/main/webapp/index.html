@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GoCheeta - Cab Service</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script>
+            const url = "http://localhost:8080/gocheeta-rest/student/"; 
+            function getStudent() {
+                let id = document.getElementById("txtID").value;
+                
+                const options = {
+                    method: "GET"
+                };
+                
+                fetch(url + id, options)
+                        .then(res => res.json()) //covert response to json
+                        .then(data => {
+                            document.getElementById("txtName").value = data.name;
+                });   
+            }
+            
+            function clearStudent() {
+                document.getElementById("txtID").value = "";
+                document.getElementById("txtName").value = "";
+            }
+            
+            function addStudent() {
+                const person = {
+                    "id" : parseInt(document.getElementById("txtID").value),
+                    "name" : document.getElementById("txtName").value
+                };
+                
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(person)
+                };
+                fetch(url, options);
+            }
+            
+            function updateStudent() {
+                const person = {
+                    "id" : parseInt(document.getElementById("txtID").value),
+                    "name" : document.getElementById("txtName").value
+                };
+                
+                const options = {
+                    method: "PUT",
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(person)
+                };
+                fetch(url, options);
+            }
+            
+            function deleteStudent() {
+                let id = document.getElementById("txtID").value;
+                const options = {
+                    method: "DELETE"
+                };
+                fetch(url + id, options);
+            }
+        </script>
+    </head>
+    <body>
+        ID : <input type="text" id="txtID" />
+        Name : <input type="text" id="txtName" />
+        
+        <button id="btnGetStudent" onclick="getStudent()">Get Student</button>
+        <button id="btnAddStudent" onclick="addStudent()">Add Student</button>
+        <button id="btnUpdateStudent" onclick="updateStudent()">Update Student</button>
+        <button id="btnDeleteStudent" onclick="deleteStudent()">Delete Student</button>
+        <br />
+        <button id="btnClearStudent" onclick="clearStudent()">Clear</button>
+    </body>
+</html>
