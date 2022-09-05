@@ -1,0 +1,14 @@
+{
+    "elements": {},
+    "attributes": {
+        "aria-current": {
+            "context": "button"
+        },
+        "integrity": {
+            "context": "link"
+        },
+        "max-width": {
+            "context": "img"
+        }
+    }
+}
