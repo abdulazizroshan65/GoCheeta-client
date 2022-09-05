@@ -47,7 +47,23 @@
                 });   
             }
             
-            function clearCustomer() {
+            function getAdmin() {
+                let email = document.getElementById("txtEmail").value;
+                
+                const options = {
+                    method: "GET"
+                };
+                
+                fetch(aurl + email, options)
+                        .then(res => res.json()) //covert response to json
+                        .then(data => {
+                            document.getElementById("txtPassword").value = data.password;
+                            document.getElementById("txtName").value = data.name;
+                            document.getElementById("txtBranch").value = data.branch;
+                });   
+            }
+            
+            function clearall() {
                 document.getElementById("txtEmail").value = "";
                 document.getElementById("txtPassword").value = "";
                 document.getElementById("txtName").value = "";
@@ -103,6 +119,24 @@
                 fetch(durl, options);
             }
             
+            function addAdmin() {
+                const person = {
+                    "email" : document.getElementById("txtEmail").value,
+                    "password" : document.getElementById("txtPassword").value,
+                    "name" : document.getElementById("txtName").value,
+                    "branch" : document.getElementById("txtBranch").value
+                };
+                
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(person)
+                };
+                fetch(aurl, options);
+            }
+            
             function updateCustomer() {
                 const person = {
                     "email" : document.getElementById("txtEmail").value,
@@ -147,6 +181,24 @@
                 fetch(durl, options);
             }
             
+            function updateAdmin() {
+                const person = {
+                    "email" : document.getElementById("txtEmail").value,
+                    "password" : document.getElementById("txtPassword").value,
+                    "name" : document.getElementById("txtName").value,
+                    "branch" : document.getElementById("txtBranch").value
+                };
+                
+                const options = {
+                    method: "PUT",
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(person)
+                };
+                fetch(aurl, options);
+            }
+            
             function deleteCustomer() {
                 let email = document.getElementById("txtEmail").value;
                 const options = {
@@ -161,6 +213,14 @@
                     method: "DELETE"
                 };
                 fetch(durl + email, options);
+            }
+            
+            function deleteAdmin() {
+                let email = document.getElementById("txtEmail").value;
+                const options = {
+                    method: "DELETE"
+                };
+                fetch(aurl + email, options);
             }
         </script>
     </head>
@@ -181,11 +241,16 @@
         <button id="btnAddCustomer" onclick="addCustomer()">Add Customer</button>
         <button id="btnUpdateCustomer" onclick="updateCustomer()">Update Customer</button>
         <button id="btnDeleteCustomer" onclick="deleteCustomer()">Delete Customer</button>
-        <button id="btnClearCustomer" onclick="clearCustomer()()">Clear</button>
+        <button id="btnClearAll" onclick="clearall()">Clear All</button>
         <br />        <br />
         <button id="btnGetDriver" onclick="getDriver()">Get Driver</button>
         <button id="btnAddDriver" onclick="addDriver()">Add Driver</button>
         <button id="btnUpdateDriver" onclick="updateDriver()">Update Driver</button>
         <button id="btnDeleteDriver" onclick="deleteDriver()">Delete Driver</button>
+        <br />        <br />
+        <button id="btnGetAdmin" onclick="getAdmin()">Get Admin</button>
+        <button id="btnAddAdmin" onclick="addAdmin()">Add Admin</button>
+        <button id="btnUpdateAdmin" onclick="updateAdmin()">Update Admin</button>
+        <button id="btnDeleteAdmin" onclick="deleteAdmin()">Delete Admin</button>
     </body>
 </html>
