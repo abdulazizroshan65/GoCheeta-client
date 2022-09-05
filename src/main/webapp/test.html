@@ -4,7 +4,9 @@
         <title>GoCheeta - Test</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script>
-            const url = "http://localhost:8080/gocheeta-rest/customers/"; 
+            const curl = "http://localhost:8080/gocheeta-rest/customers/";
+            const durl = "http://localhost:8080/gocheeta-rest/drivers/"; 
+            const aurl = "http://localhost:8080/gocheeta-rest/admins/";  
             function getCustomer() {
                 let email = document.getElementById("txtEmail").value;
                 
@@ -12,7 +14,7 @@
                     method: "GET"
                 };
                 
-                fetch(url + email, options)
+                fetch(curl + email, options)
                         .then(res => res.json()) //covert response to json
                         .then(data => {
                             document.getElementById("txtPassword").value = data.password;
@@ -24,6 +26,27 @@
                 });   
             }
             
+            function getDriver() {
+                let email = document.getElementById("txtEmail").value;
+                
+                const options = {
+                    method: "GET"
+                };
+                
+                fetch(durl + email, options)
+                        .then(res => res.json()) //covert response to json
+                        .then(data => {
+                            document.getElementById("txtPassword").value = data.password;
+                            document.getElementById("txtName").value = data.name;
+                            document.getElementById("txtBranch").value = data.branch;
+                            document.getElementById("txtTele").value = data.telephone;
+                            document.getElementById("txtStatus").value = data.status;
+                            document.getElementById("txtTrips").value = data.noOfTrips;
+                            document.getElementById("txtVehicles").value = data.noOfVehicles;
+                            document.getElementById("txtRating").value = data.rating;
+                });   
+            }
+            
             function clearCustomer() {
                 document.getElementById("txtEmail").value = "";
                 document.getElementById("txtPassword").value = "";
@@ -32,6 +55,8 @@
                 document.getElementById("txtTele").value = "";
                 document.getElementById("txtTrips").value = "";
                 document.getElementById("txtStatus").value = "";
+                document.getElementById("txtVehicles").value = "";
+                document.getElementById("txtRating").value = "";
             }
             
             function addCustomer() {
@@ -52,7 +77,30 @@
                     },
                     body: JSON.stringify(person)
                 };
-                fetch(url, options);
+                fetch(curl, options);
+            }
+            
+            function addDriver() {
+                const person = {
+                    "email" : document.getElementById("txtEmail").value,
+                    "password" : document.getElementById("txtPassword").value,
+                    "name" : document.getElementById("txtName").value,
+                    "branch" : document.getElementById("txtBranch").value,
+                    "telephone" : document.getElementById("txtTele").value,
+                    "status" : document.getElementById("txtStatus").value,
+                    "noOfTrips" : parseInt(document.getElementById("txtTrips").value),
+                    "noOfVehicles" : parseInt(document.getElementById("txtVehicles").value),
+                    "rating" : parseInt(document.getElementById("txtRating").value)
+                };
+                
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(person)
+                };
+                fetch(durl, options);
             }
             
             function updateCustomer() {
@@ -73,7 +121,30 @@
                     },
                     body: JSON.stringify(person)
                 };
-                fetch(url, options);
+                fetch(curl, options);
+            }
+            
+            function updateDriver() {
+                const person = {
+                    "email" : document.getElementById("txtEmail").value,
+                    "password" : document.getElementById("txtPassword").value,
+                    "name" : document.getElementById("txtName").value,
+                    "branch" : document.getElementById("txtBranch").value,
+                    "telephone" : document.getElementById("txtTele").value,
+                    "noOfTrips" : parseInt(document.getElementById("txtTrips").value),
+                    "status" : document.getElementById("txtStatus").value,
+                    "noOfVehicles" : parseInt(document.getElementById("txtVehicles").value),
+                    "rating" : parseInt(document.getElementById("txtRating").value)
+                };
+                
+                const options = {
+                    method: "PUT",
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(person)
+                };
+                fetch(durl, options);
             }
             
             function deleteCustomer() {
@@ -81,7 +152,15 @@
                 const options = {
                     method: "DELETE"
                 };
-                fetch(url + email, options);
+                fetch(curl + email, options);
+            }
+            
+            function deleteDriver() {
+                let email = document.getElementById("txtEmail").value;
+                const options = {
+                    method: "DELETE"
+                };
+                fetch(durl + email, options);
             }
         </script>
     </head>
@@ -95,10 +174,18 @@
         No of Trips : <input type="text" id="txtTrips" />
         Status : <input type="text" id="txtStatus" />
         <br />        <br />
+        No of Vehicles : <input type="text" id="txtVehicles" />
+        Rating : <input type="text" id="txtRating" />
+        <br />        <br />
         <button id="btnGetCustomer" onclick="getCustomer()">Get Customer</button>
         <button id="btnAddCustomer" onclick="addCustomer()">Add Customer</button>
         <button id="btnUpdateCustomer" onclick="updateCustomer()">Update Customer</button>
         <button id="btnDeleteCustomer" onclick="deleteCustomer()">Delete Customer</button>
         <button id="btnClearCustomer" onclick="clearCustomer()()">Clear</button>
+        <br />        <br />
+        <button id="btnGetDriver" onclick="getDriver()">Get Driver</button>
+        <button id="btnAddDriver" onclick="addDriver()">Add Driver</button>
+        <button id="btnUpdateDriver" onclick="updateDriver()">Update Driver</button>
+        <button id="btnDeleteDriver" onclick="deleteDriver()">Delete Driver</button>
     </body>
 </html>
