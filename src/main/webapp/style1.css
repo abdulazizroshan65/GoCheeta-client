@@ -1,19 +1,14 @@
-body {
-    height: 100vh; display: flex; align-items: center;
-    overflow: hidden;
-    justify-content: center; background-color: #141225;
-} 
 .inFormBackground {
     margin: Orem 2rem;
 }
 .inFormBackground,
 .inLoginForm {
     width: 25rem;
-    height: 30rem; max-width: 320px; position: relative;
+    height: 30rem; max-width: 320px;;
 }
 .circle {
     width: 10rem;
-    height: 10rem; position: absolute; border-radius: 50%;
+    height: 10rem; border-radius: 50%;
 }
 .circle:first-child {
     left: -20%;
@@ -26,15 +21,14 @@ body {
 }
 .inLoginForm form {
     top: 50%;
-    width: 16rem;
-    left: 50%; 
-    height: 24rem; 
+    width: 14rem;
+    left: 0%; 
+    height: 2rem; 
     backdrop-filter: blur(5px);
     max-width: 320px; 
     position: absolute;
-    padding: 50px 35px;
-    border-radius: 10px;
-    transform: translate(-50%, -50%);
+    padding: 30px 20px;
+    border-radius: 15px;
     box-shadow: 0 0 40px rgba(8, 7, 16, 0.6); 
     border: 2px solid rgba(255, 255, 255, 0.1); 
     background-color: rgba(255, 255, 255, 0.13);
@@ -42,7 +36,6 @@ body {
 form * {
     border: none;
     outline: none; 
-    color: #ffffff; 
     font-family: "Poppins", sans-serif;
     letter-spacing: 0.5px;
 }
@@ -54,33 +47,34 @@ form * {
 }
 inputGroup label {
     display: block;
+    color: #080710;
     margin-top: 30px;
-    font-size: 16px; 
+    font-size: 10px; 
     font-weight: 500;
 }
 .inputGroup input {
     width: 92%; 
-    height: 50px;
+    height: 40px;
     display: block;
     padding: 0 10px;
     margin-top: 8px;
     font-size: 14px;
     font-weight: 300;
-    border-radius: 3px;
+    border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.07);
 } 
 ::placeholder { color: #e5e5e5;}
 .submitForm {
     width: 100%;
     z-index: 1; 
-    margin-top: 30px;
+    margin-top: 25px;
     color: #080710;
     padding: 15px 0;
-    font-size: 18px; 
+    font-size: 16px; 
     font-weight: 600;
     cursor: pointer;
     overflow: hidden;
-    border-radius: 5px;
+    border-radius: 6px;
     position: relative;
     background: #fff;
 }
@@ -102,28 +96,4 @@ inputGroup label {
 }
 .submitForm:hover::before {
     left: 0%;
-}
-.social {
-    display: flex;
-    margin-top: 20px;
-    align-items: center; justify-content: center;
-}
-.social div {
-    width: 3rem;
-    height: 3rem;
-    display: flex;
-    cursor: pointer;
-    color: #eaf0fb;
-    border-radius: 50%;
-    align-items: center; 
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.27);
-} .social div:hover {
-    background-color: rgba(255, 255, 255, 0.47);
-}
-.social .fb {
-    margin-left: 25px;
-}    
-.social .tw {
-    margin-left: 25px;
 }

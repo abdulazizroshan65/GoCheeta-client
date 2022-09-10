@@ -222,6 +222,22 @@
                 };
                 fetch(aurl + email, options);
             }
+            
+            function loginAdmin() {
+                let email = document.getElementById("txtEmail").value;
+                
+                const options = {
+                    method: "GET"
+                };
+                
+                fetch(aurl + email, options)
+                        .then(res => res.json()) //covert response to json
+                        .then(data => {
+                            if (document.getElementById("txtPassword").value = data.password){
+                                
+                            }
+                });   
+            }
         </script>
     </head>
     <body>
@@ -237,20 +253,25 @@
         No of Vehicles : <input type="text" id="txtVehicles" />
         Rating : <input type="text" id="txtRating" />
         <br />        <br />
+        <button id="btnLoginCustomer" onclick="getAdmin()">Login Customer</button>
         <button id="btnGetCustomer" onclick="getCustomer()">Get Customer</button>
         <button id="btnAddCustomer" onclick="addCustomer()">Add Customer</button>
         <button id="btnUpdateCustomer" onclick="updateCustomer()">Update Customer</button>
         <button id="btnDeleteCustomer" onclick="deleteCustomer()">Delete Customer</button>
         <button id="btnClearAll" onclick="clearall()">Clear All</button>
         <br />        <br />
+        <button id="btnLoginDriver" onclick="getAdmin()">Login Driver</button>
         <button id="btnGetDriver" onclick="getDriver()">Get Driver</button>
         <button id="btnAddDriver" onclick="addDriver()">Add Driver</button>
         <button id="btnUpdateDriver" onclick="updateDriver()">Update Driver</button>
         <button id="btnDeleteDriver" onclick="deleteDriver()">Delete Driver</button>
         <br />        <br />
+        <button id="btnLoginAdmin" onclick="getAdmin()">Login Admin</button>
         <button id="btnGetAdmin" onclick="getAdmin()">Get Admin</button>
         <button id="btnAddAdmin" onclick="addAdmin()">Add Admin</button>
         <button id="btnUpdateAdmin" onclick="updateAdmin()">Update Admin</button>
         <button id="btnDeleteAdmin" onclick="deleteAdmin()">Delete Admin</button>
+        <br />        <br />
+        <button id="btnClearAll" onclick="clearall()">Clear All</button>
     </body>
 </html>
