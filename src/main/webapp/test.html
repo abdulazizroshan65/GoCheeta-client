@@ -106,7 +106,7 @@
                     "status" : document.getElementById("txtStatus").value,
                     "noOfTrips" : parseInt(document.getElementById("txtTrips").value),
                     "noOfVehicles" : parseInt(document.getElementById("txtVehicles").value),
-                    "rating" : parseInt(document.getElementById("txtRating").value)
+                    "rating" : parseFloat(document.getElementById("txtRating").value)
                 };
                 
                 const options = {
@@ -168,7 +168,8 @@
                     "noOfTrips" : parseInt(document.getElementById("txtTrips").value),
                     "status" : document.getElementById("txtStatus").value,
                     "noOfVehicles" : parseInt(document.getElementById("txtVehicles").value),
-                    "rating" : parseInt(document.getElementById("txtRating").value)
+//                    "rating" : parseFloat(document.getElementById("txtRating").value)
+    "rating" : 10
                 };
                 
                 const options = {
@@ -223,21 +224,6 @@
                 fetch(aurl + email, options);
             }
             
-            function loginAdmin() {
-                let email = document.getElementById("txtEmail").value;
-                
-                const options = {
-                    method: "GET"
-                };
-                
-                fetch(aurl + email, options)
-                        .then(res => res.json()) //covert response to json
-                        .then(data => {
-                            if (document.getElementById("txtPassword").value = data.password){
-                                
-                            }
-                });   
-            }
         </script>
     </head>
     <body>
@@ -258,7 +244,6 @@
         <button id="btnAddCustomer" onclick="addCustomer()">Add Customer</button>
         <button id="btnUpdateCustomer" onclick="updateCustomer()">Update Customer</button>
         <button id="btnDeleteCustomer" onclick="deleteCustomer()">Delete Customer</button>
-        <button id="btnClearAll" onclick="clearall()">Clear All</button>
         <br />        <br />
         <button id="btnLoginDriver" onclick="getAdmin()">Login Driver</button>
         <button id="btnGetDriver" onclick="getDriver()">Get Driver</button>

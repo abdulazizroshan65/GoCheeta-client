@@ -10,65 +10,13 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">        
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-        <style>
-          html, body {
-          display: flex;
-          justify-content: center;
-          font-family: Roboto, Arial, sans-serif;
-          font-size: 15px;
-          }
-          form {
-          border: 5px solid #f1f1f1;
-          }
-          input[type=text], input[type=password] {
-          width: 100%;
-          padding: 16px 8px;
-          margin: 8px 0;
-          display: inline-block;
-          border: 1px solid #ccc;
-          box-sizing: border-box;
-          }
-          button {
-          background-color: #8ebf42;
-          color: white;
-          padding: 14px 0;
-          margin: 10px 0;
-          border: none;
-          cursor: grabbing;
-          width: 100%;
-          }
-          h1 {
-          text-align:center;
-          fone-size:18;
-          }
-          button:hover {
-          opacity: 0.8;
-          }
-          .formcontainer {
-          text-align: left;
-          margin: 24px 50px 12px;
-          }
-          .container {
-          padding: 16px 0;
-          text-align:left;
-          }
-          span.psw {
-          float: right;
-          padding-top: 0;
-          padding-right: 15px;
-          }
-          /* Change styles for span on extra small screens */
-          @media screen and (max-width: 300px) {
-          span.psw {
-          display: block;
-          float: none;
-          }
-        </style>
+        <link rel="stylesheet" href="style1.css" />
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     </head>
     <body>
         
-        <div style="background-image: url('./resources/taxibg.jpg'); background-repeat: no-repeat; background-size: cover; height: 500px;">
+        <div class="container-fluid" style="padding-left: 0; padding-right: 0;">
+          <div style="background-image: url('./resources/taxibg.jpg'); background-repeat: no-repeat; background-size: cover; height: 500px;  padding-top: 7rem">
             <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                   <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -124,38 +72,60 @@ and open the template in the editor.
                 </button>
             </div>
         </div>
-        
-        
-        <div class="container-fluid" style="background-color: rgb(241, 196, 15); ">
-            <table align="center">
-              <tr>
-                <td>
-                  <h6 margin-top: 10mm">Best in Sri Lanka</h6>
-                  <p>One of the best taxi services in Sri Lanka with branches in the most prominent areas in Sri Lanka for your convenience at affordable prices and the ability to hail various types of taxis to your doorstep right at your fingertips</p>
-                </td>
-                <td>
-                    <form action="">
-                        <h1>Login Form</h1>
-                        <div class="formcontainer">
-                        <hr/>
-                        <div class="container">
-                          <label for="uname"><strong>Username</strong></label>
-                          <input type="text" placeholder="Enter Username" name="uname" required>
-                          <label for="psw"><strong>Password</strong></label>
-                          <input type="password" placeholder="Enter Password" name="psw" required>
-                        </div>
-                        <button type="submit">Login</button>
-                        <div class="container" style="background-color: #eee">
-                          <label style="padding-left: 15px">
-                          <input type="checkbox"  checked="checked" name="remember"> Remember me
-                          </label>
-                          <span class="psw"><a href="#"> Forgot password?</a></span>
-                        </div>
-                      </form>                  
-                </td>
-              </tr>
-            </table> 
         </div>
+        
+        <script> 
+            const curl = "http://localhost:8080/gocheeta-rest/customers/";  
+            function loginCustomer() {
+                let email = document.getElementById("txtEmail").value;
+                let passw = document.getElementById("txtPassword").value;
+                const options = {
+                    method: "GET"
+                };
+                
+                fetch(curl + email, options)
+                        .then(res => res.json()) //covert response to json
+                        .then(data => {
+                            if (passw = data.password){
+                                window.location.replace("http://localhost:8080/gocheeta-client/test.html");
+                            }
+                });   
+            }
+        </script>
+
+        <section style="background-color: rgb(241, 196, 15); height: 550px;">
+          <div class="container-fluid" style="background-color: rgb(241, 196, 15); padding-top: 5rem;">
+            <div class="row">
+              <div class="col-md-6">
+                <h1 margin-top: 10mm">Best in Sri Lanka</h1>
+                <p>One of the best taxi services in Sri Lanka with branches in the most prominent areas in Sri Lanka for your convenience at affordable prices and the ability to hail various types of taxis to your doorstep right at your fingertips</p>
+              </div>
+              <div class="col-md-6">
+                <div class="text">Login Form</div>
+                <form action="#">
+                    <div class="data">
+                        <label>Email Address</label>
+                        <input id="txtEmail" type="text" required />
+                    </div>
+                    <div class="data">
+                        <label>Password</label>
+                        <input id="txtPassword" type="password" required />
+                    </div>
+                    <div class="forgot-pass">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    <div class="btn">
+                        <div class="inner"></div>
+                        <button id="btnLogin" type="submit" onclick="loginCustomer()">login</button>
+                    </div>
+                    <div class="signup-link">
+                        Don't Have An Account? <a href="#">Signup now</a>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
