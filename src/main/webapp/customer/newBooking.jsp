@@ -1,3 +1,10 @@
+<%-- 
+    Document   : newBooking
+    Created on : 18 Sep 2022, 10:22:14
+    Author     : User
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +28,7 @@
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
-                            <a href="customer.html">Home</a>
+                            <a href="customer.jsp">Home</a>
                         </li>
                         <li>
                             <a href="#">Profile</a>
@@ -33,13 +40,13 @@
                                   <a>Book a Taxi</a>
                               </li>
                               <li>
-                                  <a href="completedBookings.html">Completed</a>
+                                  <a href="completedBookings.jsp">Completed</a>
                               </li>
                               <li>
-                                  <a href="cancelledBookings.html">Cancelled</a>
+                                  <a href="cancelledBookings.jsp">Cancelled</a>
                               </li>
                               <li>
-                                  <a href="ongoingBookings.html">Ongoing</a>
+                                  <a href="ongoingBookings.jsp">Ongoing</a>
                               </li>
                             </ul>
                         </li>
@@ -73,7 +80,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="customer.html">Home</a>
+                        <a class="nav-link" href="customer.jsp">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profile</a>
@@ -85,29 +92,14 @@
                         <a class="nav-link" href="#">Support</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../home.html">Logout</a>
+                        <a class="nav-link" href="../home.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>
               </div>
             </nav>
-                
-            <script>
-                /*const url = "http://localhost:8080/gocheeta-rest/branch/";  
-                function getDetails() {
-                    let branch = "Nugegoda"; //hardcoded
-                    const options = {
-                        method: "GET"
-                    };
-                    fetch(url + branch, options)
-                            .then(res => res.json()) //covert response to json
-                            .then(data => {
-                                let start = data.start;
-                                let end = data.end;
-                    });   
-                }*/
-            </script>    
-            
+             
+            <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
             <div class="container-fluid" id="content" style="background-image: url(images/map.PNG); background-size: cover; height: 450px; border-radius: 10px">
                 <form action="" method="post" style="padding-top: 5rem;">
                     <div class="row" style="padding: 0 15rem;">
@@ -120,11 +112,34 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                <select class="form-select" aria-label="Default select example">
+                                <select id="pickupst" class="form-select" aria-label="Default select example">
                                     <option selected>Street Name</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <script>
+                                        addEventListener('load', (event) => {
+                                            getStreets();
+                                        });
+                                        function getStreets() {
+                                            const url = "http://localhost:8080/gocheeta-rest/charges/";  
+                                            let branch = "Nugegoda"; //hardcoded search param
+                                            const options = {
+                                                method: "GET"
+                                            };
+                                            fetch(url + branch, options)
+                                                .then(res => res.json()) //covert response to json
+                                                .then(data => {                                                    
+                                                    streetList = data;
+                                                    var newOption;
+                                                    var html;
+                                                    // create and add new options 
+                                                    for (var i=0; i<streetList.length; i++) {
+                                                       html = html + "<option value="+streetList[i]['start']+">"+streetList[i]['start']+"</option>";
+                                                    }
+                                                    
+                                                    $("#pickupst").html(html);
+                                                    $("#dropst").html(html);
+                                            });   
+                                        }
+                                    </script> 
                                 </select>
                             </div>
                         </div>
@@ -139,11 +154,8 @@
                         <div class="col-md-6"> 
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                <select class="form-select" aria-label="Default select example">
+                                <select id="dropst" class="form-select" aria-label="Default select example">
                                     <option selected>Street Name</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
                                 </select>
                             </div>
                             
@@ -154,13 +166,39 @@
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 4rem; border-radius: 10px; margin-top: 2rem;">
                 <div class="container-fluid">  
-                <select class="form-select" aria-label="Default select example" style="margin-right: 1rem;">
+                <select id="category" class="form-select" aria-label="Default select example" style="margin-right: 1rem; width: 50%">
                     <option selected>Choose a Vehicle Category ...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <script>
+                        addEventListener('load', (event) => {
+                            getCategories();
+                        });  
+                        function getCategories() {
+                            const url = "http://localhost:8080/gocheeta-rest/category/";
+                            const options = {
+                                method: "GET"
+                            };
+                            fetch(url , options)
+                                .then(res => res.json()) //covert response to json
+                                .then(data => {                                                    
+                                streetList = data;
+                                var newOption;
+                                var html;
+                                // create and add new options 
+                                for (var i=0; i<streetList.length; i++) {
+                                    html = html + "<option value="+streetList[i]['type']+">"+streetList[i]['type']+"</option>";
+//                                    html = html + `<tr>
+//                                                    <td></td>
+//                                                    <td></td>
+//                                                   </tr>`;
+                                }
+                                $("#category").html(html);
+                            });   
+                        }
+                    </script>
                 </select>
                 <button type="button" id="sidebarCollapse" class="btn btn-primary">Search</button>
+                <label style="margin-bottom: 0rem">Distance (km) : 6</label>
+                <label style="margin-bottom: 0rem">Fare (Rs) : 720</label>
                 </div>
               </nav>
             

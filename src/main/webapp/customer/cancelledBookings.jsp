@@ -1,7 +1,14 @@
+<%-- 
+    Document   : cancelledBookings
+    Created on : 18 Sep 2022, 10:24:57
+    Author     : User
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GoCheeta - Book a Taxi</title>
+        <title>GoCheeta - Cancelled Bookings</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -21,7 +28,7 @@
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
-                            <a href="customer.html">Home</a>
+                            <a href="../home.jsp">Home</a>
                         </li>
                         <li>
                             <a href="#">Profile</a>
@@ -29,17 +36,17 @@
                         <li class="active">
                             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">Bookings</a>
                             <ul class="collapse list-unstyled" id="pageSubmenu">
+                              <li>
+                                  <a href="newbooking.jsp">Book a Taxi</a>
+                              </li>
+                              <li>
+                                  <a href="completedBookings.jsp">Completed</a>
+                              </li>
                               <li class="active">
-                                  <a>Book a Taxi</a>
+                                  <a href="cancelledBookings.jsp">Cancelled</a>
                               </li>
                               <li>
-                                  <a href="completedBookings.html">Completed</a>
-                              </li>
-                              <li>
-                                  <a href="cancelledBookings.html">Cancelled</a>
-                              </li>
-                              <li>
-                                  <a href="ongoingBookings.html">Ongoing</a>
+                                  <a href="ongoingBookings.jsp">Ongoing</a>
                               </li>
                             </ul>
                         </li>
@@ -69,23 +76,23 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta - Book a Taxi</h4>
+                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta - Cancelled Bookings</h4>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="customer.html">Home</a>
+                        <a class="nav-link" href="customer.jsp">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profile</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link">Bookings</a>
+                        <a class="nav-link" href="newbooking.jsp">Bookings</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Support</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../home.html">Logout</a>
+                        <a class="nav-link" href="../home.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>
@@ -108,62 +115,47 @@
                 }*/
             </script>    
             
-            <div class="container-fluid" id="content" style="background-image: url(images/map.PNG); background-size: cover; height: 450px; border-radius: 10px">
-                <form action="" method="post" style="padding-top: 5rem;">
-                    <div class="row" style="padding: 0 15rem;">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Pickup</label>
-                                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="House No">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Street Name</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="padding: 0 15rem; margin-top: 5rem;">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="House No">
-                            </div>
-                        </div>
-                        <div class="col-md-6"> 
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Street Name</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </form>
-            </div>
+            
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 4rem; border-radius: 10px; margin-top: 2rem;">
                 <div class="container-fluid">  
                 <select class="form-select" aria-label="Default select example" style="margin-right: 1rem;">
-                    <option selected>Choose a Vehicle Category ...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option>Select the Booking Type...</option>
+                    <option value="1">Completed</option>
+                    <option selected value="2">Cancelled</option>
+                    <option value="3">Ongoing</option>
                 </select>
                 <button type="button" id="sidebarCollapse" class="btn btn-primary">Search</button>
                 </div>
               </nav>
             
+              <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                              <div class="col-md-3">
+                                <img src="./images/user.jpg" class="img-fluid rounded-start" alt="..." style="width: 70%; margin-left: 25%; margin-top: 4%;">
+                              </div>
+                              <div class="col-md-7">
+                                <div class="card-body">
+                                  <h5 class="card-title">Card title</h5>
+                                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                              </div>
+                              <div class="col-md-2">
+                                <button class="btn btn-primary" style="margin-top: 50%;">Button</button>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+              </div>
+
+
+
         </div>
 
         
