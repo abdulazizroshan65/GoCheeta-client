@@ -1,7 +1,14 @@
-<!doctype html>
+<%-- 
+    Document   : driver
+    Created on : 18 Sep 2022, 10:19:49
+    Author     : User
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GoCheeta Cabs - Customer</title>
+    <title>GoCheeta Cabs - Driver</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -27,24 +34,24 @@
                             <a href="#">Profile</a>
                         </li>
                         <li>
+                              <a href="#">My Vehicles</a>
+                        </li>
+                        <li>
                             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Bookings</a>
                             <ul class="collapse list-unstyled" id="pageSubmenu">
                               <li>
-                                  <a href="newbooking.html">Book a Taxi</a>
+                                  <a href="acceptBooking.jsp">Accept a Booking</a>
                               </li>
                               <li>
-                                  <a href="/gocheeta-client/customer/completedBooking.html">Completed</a>
+                                  <a href="/gocheeta-client/driver/completedbookings.jsp">Completed</a>
                               </li>
                               <li>
-                                  <a href="cancelledBookings.html">Cancelled</a>
+                                  <a href="cancelledBookings.jsp">Cancelled</a>
                               </li>
                               <li>
-                                  <a href="ongoingBookings.html">Ongoing</a>
+                                  <a href="ongoingBookings.jsp">Ongoing</a>
                               </li>
                             </ul>
-                        </li>
-                        <li>
-                              <a href="#">Customer Support</a>
                         </li>
                         <li>
                               <a href="#">About Us</a>
@@ -79,13 +86,13 @@
                         <a class="nav-link" href="#">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="newbooking.html">Bookings</a>
+                        <a class="nav-link" href="#">Vehicles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Support</a>
+                        <a class="nav-link" href="acceptBooking.jsp">Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../home.html">Logout</a>
+                        <a class="nav-link" href="../home.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>

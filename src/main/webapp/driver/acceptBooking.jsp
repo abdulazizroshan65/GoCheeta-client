@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GoCheeta - Customer</title>
+        <title>GoCheeta - Driver</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -28,10 +28,13 @@
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
-                            <a href="customer.jsp">Home</a>
+                            <a href="driver.jsp">Home</a>
                         </li>
                         <li>
                             <a href="#">Profile</a>
+                        </li>
+                        <li>
+                              <a href="#">My Vehicles</a>
                         </li>
                         <li class="active">
                             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">Bookings</a>
@@ -49,9 +52,6 @@
                                   <a href="ongoingBookings.jsp">Ongoing</a>
                               </li>
                             </ul>
-                        </li>
-                        <li>
-                              <a href="#">Customer Support</a>
                         </li>
                         <li>
                               <a href="#">About Us</a>
@@ -80,16 +80,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="customer.jsp">Home</a>
+                        <a class="nav-link" href="driver.jsp">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profile</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Vehicles</a>
+                    </li>
                     <li class="nav-item active">
                         <a class="nav-link">Bookings</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Support</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../home.jsp">Logout</a>
@@ -185,13 +185,17 @@
                                 // create and add new options 
                                 for (var i=0; i<streetList.length; i++) {
                                     html = html + "<option value="+streetList[i]['id']+">"+streetList[i]['type']+"</option>";
+                                    html = html + `<tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                   </tr>`;
                                 }
                                 $("#category").html(html);
                             });   
                         }
                     </script>
                 </select>
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">Search</button>
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">Search</button>
 <!--                    <script> 
                          var distance;
                          function getCharge() {
@@ -218,75 +222,41 @@
                             }
                          }                        
                     </script>-->
-                <label style="margin-bottom: 0rem">Distance (km) : 0</label>
+                <label style="margin-bottom: 0rem">Distance (km) : 0<script>document.write(combo)</script></label>
                 <label style="margin-bottom: 0rem">Fare (Rs) : 0</label>
                 </div>
               </nav>
-                <table class="table table-striped table-hover" style="background-color: white">
-                    <tbody id="tblDrivers">
-                        <thead>
-                            <tr>
-                              <th>Driver Name</th>
-                              <th>Email</th>
-                              <th>Telephone</th>
-                              <th>No of Trips</th>
-                              <th></th>
-                            </tr>
-                        </thead>
-                    </tbody>
-               </table>
-        </div>
-    </div>
-      <script>
-            function getDrivers() {
-                const url = "http://localhost:8080/gocheeta-rest/drivers/";
-                const options = {
-                    method: "GET"
-                };
-                fetch(url, options)
-                    .then(res => res.json()) //covert response to json
-                    .then(data => {
-                        console.log(data)
-                        drivers = data;
-                        var html;
-                        for (var i=0; i<drivers.length; i++) {
-                            html = html + `<tr>
-                                <td>`+drivers[i].name+`</td>
-                                <td>`+drivers[i].telephone+`</td>
-                                <td>`+drivers[i].noOfTrips+`</td>
-                                <td>`+drivers[i].status+`</td>
-                                <td><button type="submit" class="btn btn-primary" onclick="newBooking(`+drivers[i]+`)">Book</button></td>
-                                </tr>`;
+                <table id="tblDrivers">
+                    <script>
+                        addEventListener('load', (event) => {
+                            getCategories();
+                        });  
+                        function getDrivers() {
+                            const url = "http://localhost:8080/gocheeta-rest/drivers/";
+                            fetch(url, options)
+                                .then(res => res.json()) //covert response to json
+                                .then(data => {
+                                    drivers = data;
+                                    var newOption;
+                                    var html;
+                                    for (var i=0; i<drivers.length; i++) {
+                                        html = html + `<tr>
+                                                        <td>+drivers[i]['name']+</td>
+                                                        <td>+drivers[i]['email']+</td>
+                                                        <td>+drivers[i]['telephone']+</td>
+                                                        <td>+drivers[i]['noOfTrips']+</td>
+                                                       </tr>`;
+                                    }
+                                    $("#tblDrivers").html(html);
+                            });  
                         }
-                        $("#tblDrivers").html(html);
-                });  
-            }
-            
-            function newBooking(int index) {
-                const url = "http://localhost:8080/gocheeta-rest/bookings/";
-                const person = {
-                    "id" : 0,
-                    "datetime" : now(),
-                    "customerEmail" : "abdulazizroshan@gmail.com", //have to get from sessions/cookies
-                    "driverEmail" : drivers[index].email,
-                    "vehicleNo" : "N/A",
-                    "status" : "Pending",
-                    "pickup" : pickupst.options[pickupst.selectedIndex].text,
-                    "drop" : dropst.options[dropst.selectedIndex].text,
-                    "distance" : 6,
-                    "fare" : 720,
-                    "feedback" : "None"
-                };
-                const options = {
-                    method: "POST",
-                    headers: {
-                        "content-type" : "application/json"
-                    },
-                    body: JSON.stringify(person)
-                };
-                fetch(url, options);
-            }
-       </script>
+                    </script>
+                </table>
+        </div>
+
+        
+        
+    </div>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.js"></script>

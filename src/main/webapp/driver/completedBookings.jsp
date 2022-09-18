@@ -1,7 +1,14 @@
+<%-- 
+    Document   : completedBookings
+    Created on : 18 Sep 2022, 10:23:33
+    Author     : User
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GoCheeta - Completed Bookings</title>
+        <title>GoCheeta - Driver</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -21,30 +28,30 @@
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
-                            <a href="../home.html">Home</a>
+                            <a href="../home.jsp">Home</a>
                         </li>
                         <li>
                             <a href="#">Profile</a>
+                        </li>
+                        <li>
+                              <a href="#">My Vehicles</a>
                         </li>
                         <li  class="active">
                             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">Bookings</a>
                             <ul class="collapse list-unstyled" id="pageSubmenu">
                               <li>
-                                  <a href="newbooking.html">Book a Taxi</a>
+                                  <a href="acceptBooking.jsp">Book a Taxi</a>
                               </li>
                               <li class="active">
-                                  <a href="completedBookings.html">Completed</a>
+                                  <a href="completedbookings.jsp">Completed</a>
                               </li>
                               <li>
-                                  <a href="cancelledBookings.html">Cancelled</a>
+                                  <a href="cancelledBookings.jsp">Cancelled</a>
                               </li>
                               <li>
-                                  <a href="ongoingBookings.html">Ongoing</a>
+                                  <a href="ongoingBookings.jsp">Ongoing</a>
                               </li>
                             </ul>
-                        </li>
-                        <li>
-                              <a href="#">Customer Support</a>
                         </li>
                         <li>
                               <a href="#">About Us</a>
@@ -73,19 +80,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="customer.html">Home</a>
+                        <a class="nav-link" href="driver.jsp">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profile</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Vehicles</a>
+                    </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="newbooking.html">Bookings</a>
+                        <a class="nav-link" href="acceptBooking.jsp">Bookings</a>
                     </li>
+                    
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Support</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../home.html">Logout</a>
+                        <a class="nav-link" href="../home.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>
