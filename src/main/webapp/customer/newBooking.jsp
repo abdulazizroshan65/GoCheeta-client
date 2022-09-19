@@ -238,6 +238,9 @@
         </div>
     </div>
       <script>
+            addEventListener('load', (event) => {
+                getDrivers();
+            }); 
             function getDrivers() {
                 const url = "http://localhost:8080/gocheeta-rest/drivers/";
                 const options = {
@@ -255,7 +258,7 @@
                                 <td>`+drivers[i].telephone+`</td>
                                 <td>`+drivers[i].noOfTrips+`</td>
                                 <td>`+drivers[i].status+`</td>
-                                <td><button type="submit" class="btn btn-primary" onclick="newBooking(`+drivers[i]+`)">Book</button></td>
+                                <td><button type="submit" class="btn btn-primary">Book</button></td>
                                 </tr>`;
                         }
                         $("#tblDrivers").html(html);

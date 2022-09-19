@@ -92,7 +92,7 @@
                         <a class="nav-link" href="acceptBooking.jsp">Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../home.jsp">Logout</a>
+                        <a class="nav-link" href="./removeCookie.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>

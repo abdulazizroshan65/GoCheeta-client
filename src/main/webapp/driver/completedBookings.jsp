@@ -93,7 +93,7 @@
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="../home.jsp">Logout</a>
+                        <a class="nav-link" href="./removeCookie.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>

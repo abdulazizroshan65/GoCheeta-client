@@ -92,170 +92,59 @@
                         <a class="nav-link">Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../home.jsp">Logout</a>
+                        <a class="nav-link" href="./removeCookie.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>
               </div>
             </nav>
+                
+            <table class="table table-striped table-hover" style="background-color: white">
+                <tbody id="tblBookings">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Pickup</th>
+                            <th>Drop</th>
+                            <th>Distance (km)</th>
+                            <th>Fare (Rs)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </tbody>
+            </table>
              
             <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
-            <div class="container-fluid" id="content" style="background-image: url(images/map.PNG); background-size: cover; height: 450px; border-radius: 10px">
-                <form action="" method="post" style="padding-top: 5rem;">
-                    <div class="row" style="padding: 0 15rem;">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Pickup</label>
-                                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="House No">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                <select id="pickupst" class="form-select" aria-label="Default select example">
-                                    <option selected>Street Name</option>
-                                    <script>
-                                        addEventListener('load', (event) => {
-                                            getStreets();
-                                        });
-                                        function getStreets() {
-                                            const url = "http://localhost:8080/gocheeta-rest/street/";  
-                                            let branch = "Nugegoda"; //hardcoded search param
-                                            const options = {
-                                                method: "GET"
-                                            };
-                                            fetch(url + branch, options)
-                                                .then(res => res.json()) //covert response to json
-                                                .then(data => {                                                    
-                                                    streetList = data;
-                                                    var newOption;
-                                                    var html;
-                                                    // create and add new options 
-                                                    for (var i=0; i<streetList.length; i++) {
-                                                       html = html + "<option value="+streetList[i]['start']+">"+streetList[i]['start']+"</option>";
-                                                    }
-                                                    
-                                                    $("#pickupst").html(html);
-                                                    $("#dropst").html(html);
-                                            });   
-                                        }
-                                    </script> 
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="padding: 0 15rem; margin-top: 5rem;">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="House No">
-                            </div>
-                        </div>
-                        <div class="col-md-6"> 
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                <select id="dropst" class="form-select" aria-label="Default select example">
-                                    <option selected>Street Name</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 4rem; border-radius: 10px; margin-top: 2rem;">
-                <div class="container-fluid">  
-                <select id="category" class="form-select" aria-label="Default select example" style="margin-right: 1rem; width: 50%">
-                    <option selected>Choose a Vehicle Category ...</option>
-                    <script>
-                        addEventListener('load', (event) => {
-                            getCategories();
-                        });  
-                        function getCategories() {
-                            const url = "http://localhost:8080/gocheeta-rest/category/";
-                            const options = {
-                                method: "GET"
-                            };
-                            fetch(url , options)
-                                .then(res => res.json()) //covert response to json
-                                .then(data => {                                                    
-                                streetList = data;
-                                var newOption;
-                                var html;
-                                // create and add new options 
-                                for (var i=0; i<streetList.length; i++) {
-                                    html = html + "<option value="+streetList[i]['id']+">"+streetList[i]['type']+"</option>";
-                                    html = html + `<tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                   </tr>`;
-                                }
-                                $("#category").html(html);
-                            });   
+            <script>
+                addEventListener('load', (event) => {
+                    getDBookings();
+                }); 
+                function getDBookings() {
+                    const url = "http://localhost:8080/gocheeta-rest/booking/";
+                    const options = {
+                        method: "GET"
+                    };
+                    fetch(url, options)
+                        .then(res => res.json()) //covert response to json
+                        .then(data => {
+                        console.log(data)
+                        bookings = data;
+                        var html;
+                        for (var i=0; i<bookings.length; i++) {
+                            html = html + `<tr>
+                                    <td>`+bookings[i].customerEmail+`</td>
+                                    <td>`+bookings[i].pickup+`</td>
+                                    <td>`+bookings[i].drop+`</td>
+                                    <td>`+bookings[i].distance+`</td>
+                                    <td>`+bookings[i].fare+`</td>
+                                    <td><button type="submit" class="btn btn-success" onclick="acceptBooking(`+bookings[i]+`)">Accept</button></td>
+                                    </tr>`;
                         }
-                    </script>
-                </select>
-                <button type="button" id="sidebarCollapse" class="btn btn-primary">Search</button>
-<!--                    <script> 
-                         var distance;
-                         function getCharge() {
-                            const url = "http://localhost:8080/gocheeta-rest/charges/";   
-                            var pickup = document.getElementById("pickupst").value;
-                            var drop = document.getElementById("dropst").value;
-                            var combo;
-                            if (pickup !== drop){
-                                let id = parseInt(pickup);
-                                const options = {
-                                    method: "GET"
-                                };
-                                fetch(url + id, options)
-                                    .then(res => res.json()) //covert response to json
-                                    .then(data => {                                                    
-                                    charges = data;
-                                    var html;
-                                    for (var i=0; i<streetList.length; i++) {
-                                        if ((charges[i]['start'] === pickup)&&(charges[i]['stop'] === drop)){
-                                            combo = charges[i][combination];
-                                        }
-                                    }
-                                });  
-                            }
-                         }                        
-                    </script>-->
-                <label style="margin-bottom: 0rem">Distance (km) : 0<script>document.write(combo)</script></label>
-                <label style="margin-bottom: 0rem">Fare (Rs) : 0</label>
-                </div>
-              </nav>
-                <table id="tblDrivers">
-                    <script>
-                        addEventListener('load', (event) => {
-                            getCategories();
-                        });  
-                        function getDrivers() {
-                            const url = "http://localhost:8080/gocheeta-rest/drivers/";
-                            fetch(url, options)
-                                .then(res => res.json()) //covert response to json
-                                .then(data => {
-                                    drivers = data;
-                                    var newOption;
-                                    var html;
-                                    for (var i=0; i<drivers.length; i++) {
-                                        html = html + `<tr>
-                                                        <td>+drivers[i]['name']+</td>
-                                                        <td>+drivers[i]['email']+</td>
-                                                        <td>+drivers[i]['telephone']+</td>
-                                                        <td>+drivers[i]['noOfTrips']+</td>
-                                                       </tr>`;
-                                    }
-                                    $("#tblDrivers").html(html);
-                            });  
-                        }
-                    </script>
-                </table>
+                        $("#tblBookings").html(html);
+                     });  
+                }
+            </script>
         </div>
-
-        
-        
     </div>
 
     <script src="js/jquery.min.js"></script>

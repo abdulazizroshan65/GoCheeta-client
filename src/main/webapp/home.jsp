@@ -60,8 +60,7 @@
                               <div class="col-md-6">
                                   <label for="branch" class="form-label">Branch</label>
                                   <select name="branch" class="form-control" placeholder="Nugegoda">
-                                    <option selected>Select the Branch...</option>
-                                    <option>Nugegoda</option>
+                                    <option selected>Nugegoda</option>
                                     <option>Galle</option>
                                     <option>Gampaha</option>
                                     <option>Jaffna</option>
@@ -71,21 +70,21 @@
                               </div>
                               <div class="col-md-6">
                                   <label for="inputmonth" class="form-label">Telephone</label>
-                                  <input type="number" class="form-control" name="telephome" value="" min="1" max="12" placeholder="0XXXXXXXXX">
+                                  <input type="number" class="form-control" id="telephone" value="" min="1" max="12" placeholder="0XXXXXXXXX">
                               </div>
                               <div class="col-12">
                                   <label for="inputpass" class="form-label">Email Address</label>
-                                  <input type="password" class="form-control" name="txtemail" placeholder="xxxxxxxxxx@gmail.com" value="">
+                                  <input type="password" class="form-control" id="txtemail" placeholder="xxxxxxxxxx@gmail.com" value="">
                               </div>
                               <div class="col-12">
                                   <label for="inputpass" class="form-label">Password</label>
-                                  <input type="password" class="form-control" name="txtpass" placeholder="Must be between 8 - 15 characters" value="">
+                                  <input type="password" class="form-control" id="txtpass" placeholder="Must be between 8 - 15 characters" value="">
                               </div>
                               <div class="col-12">
                                   <label for="inputCpass" class="form-label">Confirm Password</label>
-                                  <input type="password" class="form-control" name="txtcpass" placeholder="Re - enter your Password" value="">
+                                  <input type="password" class="form-control" id="txtcpass" placeholder="Re - enter your Password" value="">
                               </div>
-                              <input type="submit" class="btn btn-warning" name="btnSignup" value="Signup"></input>
+                              <input type="submit" class="btn btn-warning" name="btnSignup" value="Signup" onclick="signup()"></input>
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                           </form>
@@ -107,13 +106,13 @@
                           <div class="row mb-3" style="margin-inline: 2mm;">
                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
-                              <input type="text" class="form-control" name="inputEmail" value="">
+                              <input type="text" class="form-control" id="inputEmail" value="">
                             </div>
                           </div>
                             <div class="row mb-3" style="margin-inline: 2mm;">
                             <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                             <div class="col-sm-10">
-                              <input type="password" class="form-control" name="inputPassword" value="">
+                              <input type="password" class="form-control" id="inputPassword" value="">
                             </div>
                           </div>
                           <div class="col-12" style="margin-inline: 5mm;">
@@ -132,7 +131,7 @@
                             </div>
                           </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary" name="btnLogin">Login</button>
+                          <button type="submit" class="btn btn-primary" name="btnLogin" onclick="login()">Login</button>
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                       </form>
@@ -199,21 +198,76 @@
         </div>
         
         <script> 
-            const curl = "http://localhost:8080/gocheeta-rest/customers/";  
-            function loginCustomer() {
-                let email = document.getElementById("txtEmail").value;
-                let passw = document.getElementById("txtPassword").value;
+            function login() {
+                let email = document.getElementById("inputEmail").value;
+                let passw = document.getElementById("inputPassword").value;
+                let acc;   
                 const options = {
                     method: "GET"
                 };
-                
-                fetch(curl + email, options)
+                if(document.getElementById('customer').checked) {   
+                    acc = "customer";
+                    const url = "http://localhost:8080/gocheeta-rest/customers/"; 
+                    fetch(url + email, options)
                         .then(res => res.json()) //covert response to json
                         .then(data => {
                             if (passw = data.password){
-                                window.location.replace("http://localhost:8080/gocheeta-client/test.html");
+//                                window.location.replace("http://localhost:8080/gocheeta-client/customer/customer.jsp");
+                                window.location.replace("http://localhost:8080/gocheeta-client/customer/createCookie.jsp?email="+data.email);
                             }
-                });   
+                        }); 
+                }else if(document.getElementById('driver').checked) {   
+                    acc = "driver";
+                    const url = "http://localhost:8080/gocheeta-rest/drivers/"; 
+                    fetch(url + email, options)
+                        .then(res => res.json()) //covert response to json
+                        .then(data => {
+                            if (passw = data.password){
+//                                window.location.replace("http://localhost:8080/gocheeta-client/driver/driver.jsp");
+                                window.location.replace("http://localhost:8080/gocheeta-client/driver/createCookie.jsp?email="+data.email);
+                            }
+                        }); 
+                }else if(document.getElementById('admin').checked) {   
+                    acc = "admin";
+                    const url = "http://localhost:8080/gocheeta-rest/admins/";  
+                    fetch(url + email, options)
+                        .then(res => res.json()) //covert response to json
+                        .then(data => {
+                            if (passw = data.password){
+                                console.log(data);
+//                                alert("admin");
+                        
+                                
+//                                window.location.replace("http://localhost:8080/gocheeta-client/test.html");
+                                window.location.replace("http://localhost:8080/gocheeta-client/cookie/admin/create.jsp?email="+data.email);
+                            }
+                        }); 
+                }else{
+                    alert("Please select the account type to proceed");
+                }  
+            } 
+            
+            function signup(){
+//                validate telephone & password inputs
+                const curl = "http://localhost:8080/gocheeta-rest/customers/";
+                const person = {
+                    "email" : document.getElementById("txtemail").value,
+                    "password" : document.getElementById("txtpass").value,
+                    "name" : document.getElementById("txtfname").value,
+                    "branch" : document.getElementById("branch").value,
+                    "telephone" : document.getElementById("telephone").value,
+                    "noOfTrips" : 0,
+                    "status" : "Free"
+                };
+                
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "content-type" : "application/json"
+                    },
+                    body: JSON.stringify(person)
+                };
+                fetch(curl, options);
             }
         </script>
 
@@ -240,7 +294,7 @@
                     </div>
                     <div class="btn">
                         <div class="inner"></div>
-                        <button id="btnLogin" type="submit" onclick="loginCustomer()">login</button>
+                        <button id="btnLogin" type="submit" onclick="login()">login</button>
                     </div>
                     <div class="signup-link">
                         Don't Have An Account? <a href="#">Signup now</a>

@@ -37,7 +37,7 @@
                             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Bookings</a>
                             <ul class="collapse list-unstyled" id="pageSubmenu">
                               <li>
-                                  <a href="newbooking.jsp">Book a Taxi</a>
+                                  <a href="newBooking.jsp">Book a Taxi</a>
                               </li>
                               <li>
                                   <a href="/gocheeta-client/customer/completedBooking.jsp">Completed</a>
@@ -86,13 +86,13 @@
                         <a class="nav-link" href="#">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="newbooking.jsp">Bookings</a>
+                        <a class="nav-link" href="newBooking.jsp">Bookings</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Support</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../home.jsp">Logout</a>
+                        <a class="nav-link" href="./removeCookie.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>
