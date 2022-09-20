@@ -79,7 +79,7 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta Taxi Service - Vehicles</h4>
+                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta - Vehicles</h4>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
@@ -112,16 +112,13 @@
             </nav>
                 
             <table class="table table-striped table-hover" style="background-color: white">
-                <tbody id="tblBookings">
+                <tbody id="tblVehicles">
                     <thead>
                         <tr>
-                            <th>Booking ID</th>
-                            <th>Customer Name</th>
-                            <th>Pickup</th>
-                            <th>Drop</th>
-                            <th>Distance (km)</th>
-                            <th>Fare (Rs)</th>
-                            <th></th>
+                            <th>Plate No</th>
+                            <th>Category ID</th>
+                            <th>Driver Name</th>
+                            <th>No of Trips</th>
                         </tr>
                     </thead>
                 </tbody>
@@ -130,10 +127,10 @@
             <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
             <script>
                 addEventListener('load', (event) => {
-                    getDBookings();
+                    getVehicles();
                 }); 
-                const url = "http://localhost:8080/gocheeta-rest/booking/";
-                function getDBookings() {
+                const url = "http://localhost:8080/gocheeta-rest/vehicle/";
+                function getVehicles() {
                     const options = {
                         method: "GET"
                     };
@@ -141,47 +138,18 @@
                         .then(res => res.json()) //covert response to json
                         .then(data => {
                         console.log(data)
-                        bookings = data;
+                        vehicle = data;
                         var html;
-                        for (var i=0; i<bookings.length; i++) {
+                        for (var i=0; i<vehicle.length; i++) {
                             html = html + `<tr>
-                                    <td>`+bookings[i].id+`</td>
-                                    <td>`+bookings[i].customerEmail+`</td>
-                                    <td>`+bookings[i].pickup+`</td>
-                                    <td>`+bookings[i].drop+`</td>
-                                    <td>`+bookings[i].distance+`</td>
-                                    <td>`+bookings[i].fare+`</td>
-                                    <td><button type="submit" class="btn btn-success" onclick="acceptBooking(`+bookings[i]+`)">Accept</button></td>
+                                    <td>`+vehicle[i].plateno+`</td>
+                                    <td>`+vehicle[i].categoryId+`</td>
+                                    <td>`+vehicle[i].driverName+`</td>
+                                    <td>`+vehicle[i].noOfTrips+`</td>
                                     </tr>`;
                         }
-                        $("#tblBookings").html(html);
+                        $("#tblVehicles").html(html);
                      });  
-                }
-                
-                function acceptBooking(int i) {
-                    const person = {
-                        "id" = bookings[i].id,
-                        "datetime" = now(),
-                        "customerEmail" = bookings[i].customerEmail,
-                        "driverEmail" = "abdulazizroshan@gmail.com",
-                        "vehicleNo" = "AAC-9012",
-                        "status" = "Completed",
-                        "pickup" = bookings[i].pickup,
-                        "drop" = bookings[i].drop,
-                        "distance" = bookings[i].distance,
-                        "fare" = bookings[i].fare,
-                        "feedback" = "None"
-                    };
-
-                    const options = {
-                        method: "PUT",
-                        headers: {
-                            "content-type" : "application/json"
-                        },
-                        body: JSON.stringify(person)
-                    };
-                    fetch(url, options);
-                    //if updared successfully, need to display alert and refresh page
                 }
             </script>
         </div>
