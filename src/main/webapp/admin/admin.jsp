@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GoCheeta Cabs - Customer</title>
+    <title>GoCheeta - Administrator</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -34,27 +34,30 @@
                             <a href="#">Profile</a>
                         </li>
                         <li>
-                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Bookings</a>
+                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">User Accounts</a>
                             <ul class="collapse list-unstyled" id="pageSubmenu">
                               <li>
-                                  <a href="newBooking.jsp">Book a Taxi</a>
+                                  <a href="customerAcc.jsp">Customers</a>
                               </li>
                               <li>
-                                  <a href="/gocheeta-client/customer/completedBooking.jsp">Completed</a>
+                                  <a href="driverAcc.jsp">Drivers</a>
                               </li>
                               <li>
-                                  <a href="cancelledBookings.jsp">Cancelled</a>
-                              </li>
-                              <li>
-                                  <a href="ongoingBookings.jsp">Ongoing</a>
+                                  <a href="adminAcc.jsp">Administrators</a>
                               </li>
                             </ul>
                         </li>
                         <li>
-                              <a href="#">Customer Support</a>
+                            <a href="bookings.jsp">Bookings</a>
                         </li>
                         <li>
-                              <a href="#">About Us</a>
+                            <a href="vehicles.jsp">Vehicles</a>
+                        </li>
+                        <li>
+                            <a href="branches.jsp">Branches</a>
+                        </li>
+                        <li>
+                              <a href="#">Sales</a>
                         </li>
                     </ul>
 
@@ -86,13 +89,22 @@
                         <a class="nav-link" href="#">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="newBooking.jsp">Bookings</a>
+                        <a class="nav-link" href="customerAcc.jsp">Accounts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Support</a>
+                        <a class="nav-link" href="bookings.jsp">Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./removeCookie.jsp">Logout</a>
+                        <a class="nav-link" href="vehicles.jsp">Vehicles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="branches.jsp">Branches</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./remove.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>
