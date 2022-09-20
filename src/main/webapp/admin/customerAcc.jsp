@@ -79,7 +79,7 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta Taxi Service - Customer Accounts</h4>
+                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta - Customers</h4>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
@@ -112,16 +112,15 @@
             </nav>
                 
             <table class="table table-striped table-hover" style="background-color: white">
-                <tbody id="tblBookings">
+                <tbody id="tblCustomers">
                     <thead>
                         <tr>
-                            <th>Booking ID</th>
-                            <th>Customer Name</th>
-                            <th>Pickup</th>
-                            <th>Drop</th>
-                            <th>Distance (km)</th>
-                            <th>Fare (Rs)</th>
-                            <th></th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Name</th>
+                            <th>Branch</th>
+                            <th>Telephone</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                 </tbody>
@@ -130,10 +129,10 @@
             <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
             <script>
                 addEventListener('load', (event) => {
-                    getDBookings();
+                    getCustomers();
                 }); 
-                const url = "http://localhost:8080/gocheeta-rest/booking/";
-                function getDBookings() {
+                const url = "http://localhost:8080/gocheeta-rest/customers/";
+                function getCustomers() {
                     const options = {
                         method: "GET"
                     };
@@ -141,47 +140,20 @@
                         .then(res => res.json()) //covert response to json
                         .then(data => {
                         console.log(data)
-                        bookings = data;
+                        customers = data;
                         var html;
-                        for (var i=0; i<bookings.length; i++) {
+                        for (var i=0; i<customers.length; i++) {
                             html = html + `<tr>
-                                    <td>`+bookings[i].id+`</td>
-                                    <td>`+bookings[i].customerEmail+`</td>
-                                    <td>`+bookings[i].pickup+`</td>
-                                    <td>`+bookings[i].drop+`</td>
-                                    <td>`+bookings[i].distance+`</td>
-                                    <td>`+bookings[i].fare+`</td>
-                                    <td><button type="submit" class="btn btn-success" onclick="acceptBooking(`+bookings[i]+`)">Accept</button></td>
+                                    <td>`+customers[i].email+`</td>
+                                    <td>`+customers[i].password+`</td>
+                                    <td>`+customers[i].name+`</td>
+                                    <td>`+customers[i].branch+`</td>
+                                    <td>`+customers[i].telephone+`</td>
+                                    <td>`+customers[i].status+`</td>
                                     </tr>`;
                         }
-                        $("#tblBookings").html(html);
+                        $("#tblCustomers").html(html);
                      });  
-                }
-                
-                function acceptBooking(int i) {
-                    const person = {
-                        "id" = bookings[i].id,
-                        "datetime" = now(),
-                        "customerEmail" = bookings[i].customerEmail,
-                        "driverEmail" = "abdulazizroshan@gmail.com",
-                        "vehicleNo" = "AAC-9012",
-                        "status" = "Completed",
-                        "pickup" = bookings[i].pickup,
-                        "drop" = bookings[i].drop,
-                        "distance" = bookings[i].distance,
-                        "fare" = bookings[i].fare,
-                        "feedback" = "None"
-                    };
-
-                    const options = {
-                        method: "PUT",
-                        headers: {
-                            "content-type" : "application/json"
-                        },
-                        body: JSON.stringify(person)
-                    };
-                    fetch(url, options);
-                    //if updared successfully, need to display alert and refresh page
                 }
             </script>
         </div>
