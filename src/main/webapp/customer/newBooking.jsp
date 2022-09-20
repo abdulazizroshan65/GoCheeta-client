@@ -6,6 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    
+    String customerEmail = "";
+    
+    for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("CUSTOMEREMAIL")) {
+            customerEmail = cookie.getValue();
+        }
+    }   
+
+%>
 <html>
     <head>
         <title>GoCheeta - Customer</title>
@@ -16,7 +27,7 @@
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/style.css">
-  </head>
+  </head>  
   <body>
 	<div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar">
@@ -92,7 +103,7 @@
                         <a class="nav-link" href="#">Support</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./removeCookie.jsp">Logout</a>
+                        <a class="nav-link" href="../home.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>
@@ -106,12 +117,12 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Pickup</label>
-                                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="House No">
+                                <input type="number" class="form-control" id="pickUpHouseNo" placeholder="House No">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Drop</label>
+                                <label for="exampleFormControlInput1" class="form-label">Pickup</label>
                                 <select id="pickupst" class="form-select" aria-label="Default select example">
                                     <option selected>Street Name</option>
                                     <script>
@@ -119,7 +130,7 @@
                                             getStreets();
                                         });
                                         function getStreets() {
-                                            const url = "http://localhost:8080/gocheeta-rest/street/";  
+                                            const url = "http://localhost:8080/gocheeta-rest/street/";                                              
                                             let branch = "Nugegoda"; //hardcoded search param
                                             const options = {
                                                 method: "GET"
@@ -148,7 +159,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Drop</label>
-                                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="House No">
+                                <input type="number" class="form-control" id="dropHouse" placeholder="House No">
                             </div>
                         </div>
                         <div class="col-md-6"> 
@@ -163,7 +174,7 @@
                 </form>
             </div>
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 4rem; border-radius: 10px; margin-top: 2rem;">
+<!--            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 4rem; border-radius: 10px; margin-top: 2rem;">
                 <div class="container-fluid">  
                 <select id="category" class="form-select" aria-label="Default select example" style="margin-right: 1rem; width: 50%">
                     <option selected>Choose a Vehicle Category ...</option>
@@ -172,7 +183,8 @@
                             getCategories();
                         });  
                         function getCategories() {
-                            const url = "http://localhost:8080/gocheeta-rest/category/";
+//                            const url = "http://localhost:8080/gocheeta-rest/category/";
+                            const url = "http://localhost:6060/gocheeta-rest/category";
                             const options = {
                                 method: "GET"
                             };
@@ -192,7 +204,7 @@
                     </script>
                 </select>
                 <button type="button" id="btnSearch" class="btn btn-primary">Search</button>
-<!--                    <script> 
+                    <script> 
                          var distance;
                          function getCharge() {
                             const url = "http://localhost:8080/gocheeta-rest/charges/";   
@@ -217,22 +229,21 @@
                                 });  
                             }
                          }                        
-                    </script>-->
+                    </script>
                 <label style="margin-bottom: 0rem">Distance (km) : 0</label>
                 <label style="margin-bottom: 0rem">Fare (Rs) : 0</label>
               </div>
-              </nav>
-                <table class="table table-striped table-hover" style="background-color: white;">
-                    <tbody id="tblDrivers">
-                        <thead>
-                            <tr>
-                              <th>Driver Name</th>
-                              <th>Email</th>
-                              <th>Telephone</th>
-                              <th>No of Trips</th>
-                              <th>.</th>
-                            </tr>
+              </nav>-->
+                <table class="table table-striped table-hover" style="background-color: white; margin-top: 3rem">
+                    <thead>
+                            <th>Driver Name</th>
+                            <th>Email</th>
+                            <th>Telephone</th>
+                            <th>No of Trips</th>
+                            <th>.</th>
                         </thead>
+                    <tbody id="tblDrivers">
+                        
                     </tbody>
                </table>
         </div>
@@ -242,40 +253,52 @@
                 getDrivers();
             }); 
             function getDrivers() {
-                const url = "http://localhost:8080/gocheeta-rest/drivers/";
+                const url = "http://localhost:8080/gocheeta-rest/drivers/";                
                 const options = {
                     method: "GET"
                 };
+
                 fetch(url, options)
-                    .then(res => res.json()) //covert response to json
-                    .then(data => {
-                        console.log(data)
-                        drivers = data;
-                        var html;
-                        for (var i=0; i<drivers.length; i++) {
-                            html = html + `<tr>
-                                <td>`+drivers[i].name+`</td>
-                                <td>`+drivers[i].telephone+`</td>
-                                <td>`+drivers[i].noOfTrips+`</td>
-                                <td>`+drivers[i].status+`</td>
-                                <td><button type="submit" class="btn btn-primary" onclick="newBooking(`+drivers[i].email+`)">Book</button></td>
-                                </tr>`;
+                    .then((response) => {
+                        if(response.status == 200) {
+                            response.json().then(data => {
+                                drivers = data;
+                                var html = '';
+                                for (var i=0; i<drivers.length; i++) {
+                                    html = html + `<tr>
+                                        <td>`+drivers[i].name+`</td>
+                                        <td>`+drivers[i].telephone+`</td>
+                                        <td>`+drivers[i].noOfTrips+`</td>
+                                        <td>`+drivers[i].status+`</td>
+                                        <td><button type="submit" class="btn btn-primary" onclick="newBooking('`+drivers[i].email+`')">Book</button></td>
+                                        </tr>`;
+                                }
+                                $("#tblDrivers").html(html);
+                            })
+                        } else {
+                            console.log("error when getting drivers");
                         }
-                        $("#tblDrivers").html(html);
-                });  
+                });
             }
             
-            function newBooking(String mail) {
-                const url = "http://localhost:8080/gocheeta-rest/bookings/";
+            function newBooking(mail) {
+                const url = "http://localhost:8080/gocheeta-rest/booking";                                             
+                
+//                var pickupStreet    = $("#pickupst").val();
+//                var dropStreet      = $("#dropst").val();
+                
+                var pickupStreet    = "pick ";
+                var dropStreet      = "drop";
+                
                 const person = {
-                    "id" : 0,
-                    "datetime" : now(),
-                    "customerEmail" : "abdulazizroshan@gmail.com", //have to get from sessions/cookies
+//                    "id" : 0,
+//                    "datetime" : now(),
+                    "customerEmail" : "<%= customerEmail %>", //have to get from sessions/cookies
                     "driverEmail" : mail,
                     "vehicleNo" : "N/A",
                     "status" : "Pending",
-                    "pickup" : pickupst.options[pickupst.selectedIndex].text,
-                    "drop" : dropst.options[dropst.selectedIndex].text,
+                    "pickup" : pickupStreet,
+                    "drop" : dropStreet,
                     "distance" : 6,
                     "fare" : 720,
                     "feedback" : "None"
@@ -287,7 +310,14 @@
                     },
                     body: JSON.stringify(person)
                 };
-                fetch(url, options);
+                fetch(url, options)
+                        .then((response) => {
+                            if(response.status == 201) {
+                                alert("Booking placed success");
+                            } else {
+                                alert("Booking failed. Please try again");
+                            }
+                        })
             }
        </script>
 

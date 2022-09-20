@@ -5,6 +5,17 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    
+    String driverEmail = "";
+    
+    for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("DRIVEREMAIL")) {
+            driverEmail = cookie.getValue();
+        }
+    }   
+
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -120,7 +131,7 @@
                 addEventListener('load', (event) => {
                     getDBookings();
                 }); 
-                const url = "http://localhost:8080/gocheeta-rest/booking/";
+                const url = "http://localhost:8080/gocheeta-rest/booking/<%= driverEmail %>";
                 function getDBookings() {
                     const options = {
                         method: "GET"
@@ -128,7 +139,6 @@
                     fetch(url, options)
                         .then(res => res.json()) //covert response to json
                         .then(data => {
-                        console.log(data)
                         bookings = data;
                         var html;
                         for (var i=0; i<bookings.length; i++) {
@@ -139,28 +149,17 @@
                                     <td>`+bookings[i].drop+`</td>
                                     <td>`+bookings[i].distance+`</td>
                                     <td>`+bookings[i].fare+`</td>
-                                    <td><button type="submit" class="btn btn-success" onclick="acceptBooking(`+bookings[i]+`)">Accept</button></td>
+                                    <td><button type="submit" class="btn btn-success" onclick="acceptBooking(`+bookings[i].id+`)">Accept</button></td>
                                     </tr>`;
                         }
                         $("#tblBookings").html(html);
                      });  
                 }
                 
-                function acceptBooking(int i) {
+                function acceptBooking(id) {                    
                     const person = {
-                        "id" = bookings[i].id,
-                        "datetime" = now(),
-                        "customerEmail" = bookings[i].customerEmail,
-                        "driverEmail" = "abdulazizroshan@gmail.com",
-                        "vehicleNo" = "AAC-9012",
-                        "status" = "Completed",
-                        "pickup" = bookings[i].pickup,
-                        "drop" = bookings[i].drop,
-                        "distance" = bookings[i].distance,
-                        "fare" = bookings[i].fare,
-                        "feedback" = "None"
-                    };
-
+                        "id": id
+                    }
                     const options = {
                         method: "PUT",
                         headers: {
@@ -168,7 +167,15 @@
                         },
                         body: JSON.stringify(person)
                     };
-                    fetch(url, options);
+                    const url = "http://localhost:8080/gocheeta-rest/booking";
+                    fetch(url, options)
+                            .then((response) => {
+                                if(response.status == 200) {
+                                    alert("Booking accept success");
+                                } else {
+                                    alert("Booking accept failed");
+                                }
+                            })
                     //if updared successfully, need to display alert and refresh page
                 }
             </script>

@@ -53,11 +53,11 @@
                           <form class="row g-3" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                               <div class="col-12">
                                   <label for="inputfname" class="form-label">Full Name</label>
-                                  <input type="text" class="form-control" name="txtfname" placeholder="Abdulaziz Roshan" value="">
+                                  <input type="text" class="form-control" name="txtfname" id="txtfname" placeholder="Abdulaziz Roshan" value="">
                               </div>
                               <div class="col-md-6">
                                   <label for="branch" class="form-label">Branch</label>
-                                  <select name="branch" class="form-control" placeholder="Nugegoda">
+                                  <select name="branch" id="branch" class="form-control" placeholder="Nugegoda">
                                     <option selected>Nugegoda</option>
                                     <option>Galle</option>
                                     <option>Gampaha</option>
@@ -82,7 +82,7 @@
                                   <label for="inputCpass" class="form-label">Confirm Password</label>
                                   <input type="password" class="form-control" id="txtcpass" placeholder="Re - enter your Password" value="">
                               </div>
-                              <input type="submit" class="btn btn-warning" name="btnSignup" value="Signup" onclick="signup()"></input>
+                              <input type="button" class="btn btn-warning" name="btnSignup" value="Signup" onclick="signup()"></input>
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                           </form>
@@ -129,7 +129,7 @@
                             </div>
                           </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary" name="btnLogin" onclick="login()">Login</button>
+                          <button type="button" class="btn btn-primary" name="btnLogin" onclick="login()">Login</button>
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                       </form>
@@ -210,32 +210,33 @@
                         .then(res => res.json()) //covert response to json
                         .then(data => {
                             if (passw = data.password){
-//                                window.location.replace("http://localhost:8080/gocheeta-client/customer/customer.jsp");
                                 window.location.replace("http://localhost:8080/gocheeta-client/customer/createCookie.jsp?email="+data.email);
+                            } else {
+                                alert("Customer login failed");
                             }
                         }); 
                 }else if(document.getElementById('driver').checked) {   
                     acc = "driver";
-                    const url = "http://localhost:8080/gocheeta-rest/drivers/"; 
+                    const url = "http://localhost:8080/gocheeta-rest/drivers/";                     
                     fetch(url + email, options)
                         .then(res => res.json()) //covert response to json
                         .then(data => {
                             if (passw = data.password){
-//                                window.location.replace("http://localhost:8080/gocheeta-client/driver/driver.jsp");
                                 window.location.replace("http://localhost:8080/gocheeta-client/driver/createCookie.jsp?email="+data.email);
+                            } else {
+                                alert("Driver login failed");
                             }
                         }); 
                 }else if(document.getElementById('admin').checked) {   
                     acc = "admin";
-                    const url = "http://localhost:8080/gocheeta-rest/admins/";  
+                    const url = "http://localhost:8080/gocheeta-rest/admins/";                      
                     fetch(url + email, options)
                         .then(res => res.json()) //covert response to json
                         .then(data => {
                             if (passw = data.password){
-                                console.log(data);
-//                                alert("admin");
-//                                window.location.replace("http://localhost:8080/gocheeta-client/test.html");
-                                window.location.replace("http://localhost:8080/gocheeta-client/cookie/admin/create.jsp?email="+data.email);
+                                window.location.replace("http://localhost:8080/gocheeta-client/cookie/admin/create.jsp?email="+data.email);                                
+                            } else  {
+                                alert("Admin login failed");
                             }
                         }); 
                 }else{
@@ -245,7 +246,7 @@
             
             function signup(){
 //                validate telephone & password inputs
-                const curl = "http://localhost:8080/gocheeta-rest/customers/";
+                const curl = "http://localhost:8080/gocheeta-rest/customers/";                
                 const person = {
                     "email" : document.getElementById("txtemail").value,
                     "password" : document.getElementById("txtpass").value,
@@ -263,7 +264,15 @@
                     },
                     body: JSON.stringify(person)
                 };
-                fetch(curl, options);
+                fetch(curl, options)
+                        .then((response) => {
+                            if(response.status == 200) {
+                                alert("User Sign up completed");
+                            } else {
+                                alert("User Sign up failed");
+                            }
+                })
+                        
             }
         </script>
         
