@@ -15,11 +15,9 @@
         <link rel="stylesheet" href="style1.css" />
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     </head>
-    <body>
-        
+    <body style="background-image: url('./resources/taxibg.jpg'); background-repeat: no-repeat; background-size: cover; height:  625px">
         <div class="container-fluid" style="padding-left: 0; padding-right: 0;">
-          <div style="background-image: url('./resources/taxibg.jpg'); background-repeat: no-repeat; background-size: cover; height: 500px;  padding-top: 7rem">
-            
+          <div style="padding-top: 7rem">
               <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 4rem; border-radius: 10px; margin-left: 2rem; margin-right: 2rem; margin-top: -75px;">
                 <div class="container-fluid">
                   <button type="button" id="sidebarCollapse" class="btn btn-warning">
@@ -70,11 +68,11 @@
                               </div>
                               <div class="col-md-6">
                                   <label for="inputmonth" class="form-label">Telephone</label>
-                                  <input type="number" class="form-control" id="telephone" value="" min="1" max="12" placeholder="0XXXXXXXXX">
+                                  <input type="number" class="form-control" id="telephone" value="" placeholder="0XXXXXXXXX">
                               </div>
                               <div class="col-12">
                                   <label for="inputpass" class="form-label">Email Address</label>
-                                  <input type="password" class="form-control" id="txtemail" placeholder="xxxxxxxxxx@gmail.com" value="">
+                                  <input type="text" class="form-control" id="txtemail" placeholder="xxxxxxxxxx@gmail.com" value="">
                               </div>
                               <div class="col-12">
                                   <label for="inputpass" class="form-label">Password</label>
@@ -140,7 +138,7 @@
                 </div>
               </div>          
               
-                <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel" style="margin-top: 40px;">
+                <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel" style="margin-top: 100px;">
                 <div class="carousel-indicators">
                   <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                   <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -236,8 +234,6 @@
                             if (passw = data.password){
                                 console.log(data);
 //                                alert("admin");
-                        
-                                
 //                                window.location.replace("http://localhost:8080/gocheeta-client/test.html");
                                 window.location.replace("http://localhost:8080/gocheeta-client/cookie/admin/create.jsp?email="+data.email);
                             }
@@ -270,40 +266,6 @@
                 fetch(curl, options);
             }
         </script>
-
-        <section style="background-color: rgb(241, 196, 15); height: 550px;">
-          <div class="container-fluid" style="background-color: rgb(241, 196, 15); padding-top: 5rem;">
-            <div class="row">
-              <div class="col-md-6">
-                <h1 margin-top: 10mm">Best in Sri Lanka</h1>
-                <p>One of the best taxi services in Sri Lanka with branches in the most prominent areas in Sri Lanka for your convenience at affordable prices and the ability to hail various types of taxis to your doorstep right at your fingertips</p>
-              </div>
-              <div class="col-md-6">
-                <div class="text">Login Form</div>
-                <form action="#">
-                    <div class="data">
-                        <label>Email Address</label>
-                        <input id="txtEmail" type="text" required />
-                    </div>
-                    <div class="data">
-                        <label>Password</label>
-                        <input id="txtPassword" type="password" required />
-                    </div>
-                    <div class="forgot-pass">
-                        <a href="#">Forgot Password?</a>
-                    </div>
-                    <div class="btn">
-                        <div class="inner"></div>
-                        <button id="btnLogin" type="submit" onclick="login()">login</button>
-                    </div>
-                    <div class="signup-link">
-                        Don't Have An Account? <a href="#">Signup now</a>
-                    </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

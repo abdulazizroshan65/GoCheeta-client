@@ -103,6 +103,7 @@
                 <tbody id="tblBookings">
                     <thead>
                         <tr>
+                            <th>Booking ID</th>
                             <th>Customer Name</th>
                             <th>Pickup</th>
                             <th>Drop</th>
@@ -119,8 +120,8 @@
                 addEventListener('load', (event) => {
                     getDBookings();
                 }); 
+                const url = "http://localhost:8080/gocheeta-rest/booking/";
                 function getDBookings() {
-                    const url = "http://localhost:8080/gocheeta-rest/booking/";
                     const options = {
                         method: "GET"
                     };
@@ -132,6 +133,7 @@
                         var html;
                         for (var i=0; i<bookings.length; i++) {
                             html = html + `<tr>
+                                    <td>`+bookings[i].id+`</td>
                                     <td>`+bookings[i].customerEmail+`</td>
                                     <td>`+bookings[i].pickup+`</td>
                                     <td>`+bookings[i].drop+`</td>
@@ -142,6 +144,32 @@
                         }
                         $("#tblBookings").html(html);
                      });  
+                }
+                
+                function acceptBooking(int i) {
+                    const person = {
+                        "id" = bookings[i].id,
+                        "datetime" = now(),
+                        "customerEmail" = bookings[i].customerEmail,
+                        "driverEmail" = "abdulazizroshan@gmail.com",
+                        "vehicleNo" = "AAC-9012",
+                        "status" = "Completed",
+                        "pickup" = bookings[i].pickup,
+                        "drop" = bookings[i].drop,
+                        "distance" = bookings[i].distance,
+                        "fare" = bookings[i].fare,
+                        "feedback" = "None"
+                    };
+
+                    const options = {
+                        method: "PUT",
+                        headers: {
+                            "content-type" : "application/json"
+                        },
+                        body: JSON.stringify(person)
+                    };
+                    fetch(url, options);
+                    //if updared successfully, need to display alert and refresh page
                 }
             </script>
         </div>

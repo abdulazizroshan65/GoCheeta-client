@@ -191,7 +191,7 @@
                         }
                     </script>
                 </select>
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">Search</button>
+                <button type="button" id="btnSearch" class="btn btn-primary">Search</button>
 <!--                    <script> 
                          var distance;
                          function getCharge() {
@@ -220,9 +220,9 @@
                     </script>-->
                 <label style="margin-bottom: 0rem">Distance (km) : 0</label>
                 <label style="margin-bottom: 0rem">Fare (Rs) : 0</label>
-                </div>
+              </div>
               </nav>
-                <table class="table table-striped table-hover" style="background-color: white">
+                <table class="table table-striped table-hover"">
                     <tbody id="tblDrivers">
                         <thead>
                             <tr>
@@ -230,7 +230,7 @@
                               <th>Email</th>
                               <th>Telephone</th>
                               <th>No of Trips</th>
-                              <th></th>
+                              <th>.</th>
                             </tr>
                         </thead>
                     </tbody>
@@ -258,20 +258,20 @@
                                 <td>`+drivers[i].telephone+`</td>
                                 <td>`+drivers[i].noOfTrips+`</td>
                                 <td>`+drivers[i].status+`</td>
-                                <td><button type="submit" class="btn btn-primary">Book</button></td>
+                                <td><button type="submit" class="btn btn-primary" onclick="newBooking(`+drivers[i].email+`)">Book</button></td>
                                 </tr>`;
                         }
                         $("#tblDrivers").html(html);
                 });  
             }
             
-            function newBooking(int index) {
+            function newBooking(String mail) {
                 const url = "http://localhost:8080/gocheeta-rest/bookings/";
                 const person = {
                     "id" : 0,
                     "datetime" : now(),
                     "customerEmail" : "abdulazizroshan@gmail.com", //have to get from sessions/cookies
-                    "driverEmail" : drivers[index].email,
+                    "driverEmail" : mail,
                     "vehicleNo" : "N/A",
                     "status" : "Pending",
                     "pickup" : pickupst.options[pickupst.selectedIndex].text,
