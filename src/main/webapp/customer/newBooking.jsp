@@ -222,7 +222,7 @@
                 <label style="margin-bottom: 0rem">Fare (Rs) : 0</label>
               </div>
               </nav>
-                <table class="table table-striped table-hover"">
+                <table class="table table-striped table-hover" style="background-color: white;">
                     <tbody id="tblDrivers">
                         <thead>
                             <tr>
