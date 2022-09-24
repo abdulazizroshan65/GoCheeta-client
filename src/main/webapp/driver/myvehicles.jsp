@@ -1,26 +1,26 @@
 <%-- 
-    Document   : branches
-    Created on : 20 Sep 2022, 18:20:00
+    Document   : myvehicles
+    Created on : 23 Sep 2022, 23:45:35
     Author     : User
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <%
     
-    String adminEmail = "";
+    String driverEmail = "";
     
     for (Cookie cookie : request.getCookies()) {
-        if (cookie.getName().equals("ADMINEMAIL")) {
-            adminEmail = cookie.getValue();
+        if (cookie.getName().equals("DRIVEREMAIL")) {
+            driverEmail = cookie.getValue();
         }
     }   
 
 %>
+<!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>GoCheeta - Administrator</title>
+        <title>GoCheeta - Driver</title>
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">        
@@ -40,7 +40,7 @@
                                     getUsername();
                                 });                 
                                 function getUsername(){
-                                    const curl = "http://localhost:8080/gocheeta-rest/admins/<%= adminEmail %>";
+                                    const curl = "http://localhost:8080/gocheeta-rest/drivers/<%= driverEmail %>";
                                     const options = {
                                         method: "GET"
                                     };
@@ -52,40 +52,37 @@
                                 }
                             </script>
                         </a>
-                        <p><%= adminEmail %></p>
+                        <p><%= driverEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
-                            <a href="admin.jsp">Home</a>
+                            <a href="driver.jsp">Home</a>
                         </li>
                         <li>
                             <a href="#">Profile</a>
                         </li>
+                        <li class="active">
+                            <a>My Vehicles</a>
+                        </li>
                         <li>
-                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">User Accounts</a>
+                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">Bookings</a>
                             <ul class="collapse list-unstyled" id="pageSubmenu">
-                              <li>
-                                  <a href="customerAcc.jsp">Customers</a>
+                              <li class="active">
+                                  <a>Accept a Booking</a>
                               </li>
                               <li>
-                                  <a href="driverAcc.jsp">Drivers</a>
+                                  <a href="completedbookings.jsp">Completed</a>
                               </li>
                               <li>
-                                  <a href="adminAcc.jsp">Administrators</a>
+                                  <a href="cancelledBookings.jsp">Cancelled</a>
+                              </li>
+                              <li>
+                                  <a href="ongoingBookings.jsp">Ongoing</a>
                               </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="branches.jsp">Bookings</a>
-                        </li>
-                        <li>
-                            <a href="vehicles.jsp">Vehicles</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a>Branches</a>
-                        </li>
-                        <li>
-                             <a href="#">Sales</a>
+                              <a href="#">About Us</a>
                         </li>
                     </ul>
 
@@ -97,7 +94,7 @@
             </nav>
         
             <!-- Page Content  -->
-            <div id="content" class="p-4 p-md-5" style="align-content: center; background-image: url(images/taxibg.jpg); background-repeat: no-repeat; background-size: cover; height: 500px;">
+            <div id="content" class="p-4 p-md-5" style="align-content: center; background-image: url(images/taxibg.jpg); background-repeat: no-repeat; background-size: cover;">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 4rem; border-radius: 10px">
               <div class="container-fluid">
                 <button type="button" id="sidebarCollapse" class="btn btn-primary">
@@ -107,32 +104,23 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta - Branches</h4>
+                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta - My Vehicles</h4>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="admin.jsp">Home</a>
+                        <a class="nav-link" href="driver.jsp">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profile</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="customerAcc.jsp">Accounts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="bookings.jsp">Bookings</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="vehicles.jsp">Vehicles</a>
-                    </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="branches.jsp">Branches</a>
+                        <a class="nav-link">Vehicles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sales</a>
+                        <a class="nav-link">Bookings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./remove.jsp">Logout</a>
+                        <a class="nav-link" href="./removeCookie.jsp">Logout</a>
                     </li>
                   </ul>
                 </div>
@@ -140,14 +128,12 @@
             </nav>
                 
             <table class="table table-striped table-hover" style="background-color: white">
-                <tbody id="tblBranches">
+                <tbody id="tblVehicles">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>No of Drivers</th>
-                            <th>No of Customers</th>
-                            <th>No of Admins</th>
+                            <th>Plate No</th>
+                            <th>Category ID</th>
+                            <th>Driver Name</th>
                             <th>No of Trips</th>
                         </tr>
                     </thead>
@@ -157,10 +143,10 @@
             <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
             <script>
                 addEventListener('load', (event) => {
-                    getBranches();
+                    getVehicles();
                 }); 
-                const url = "http://localhost:8080/gocheeta-rest/branch/";
-                function getBranches() {
+                const url = "http://localhost:8080/gocheeta-rest/vehicle/";
+                function getVehicles() {
                     const options = {
                         method: "GET"
                     };
@@ -168,87 +154,94 @@
                         .then(res => res.json()) //covert response to json
                         .then(data => {
                         console.log(data)
-                        branches = data;
-                        var html;
-                        for (var i=0; i<branches.length; i++) {
-                            html = html + `<tr>
-                                    <td>`+branches[i].id+`</td>
-                                    <td>`+branches[i].name+`</td>
-                                    <td>`+branches[i].noOfDrivers+`</td>
-                                    <td>`+branches[i].noOfCustomers+`</td>
-                                    <td>`+branches[i].noOfAdmins+`</td>
-                                    <td>`+branches[i].noOfTrips+`</td>
+                        vehicle = data;
+                        var html, driver;
+                        //var user = document.getElementById("username").value;
+                        for (var i=0; i<vehicle.length; i++) {
+//                            driver = vehicle[i].driverName;
+//                            if(driver == user){
+//                            }else{
+//                                alert("No Registered Vehicles Found")
+//                            }
+                              html = html + `<tr>
+                                    <td>`+vehicle[i].plateno+`</td>
+                                    <td>`+vehicle[i].categoryId+`</td>
+                                    <td>`+vehicle[i].driverName+`</td>
+                                    <td>`+vehicle[i].noOfTrips+`</td>
                                     </tr>`;
                         }
-                        $("#tblBranches").html(html);
+                        $("#tblVehicles").html(html);
                      });  
                 }
             </script>
             
             <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-radius: 10px; padding: 20px; margin-bottom: 20px">
                 <form class="row g-3">
-                    <div class="col-md-3">
-                        <label for="inputid" class="form-label">Branch ID</label>
-                        <input type="number" class="form-control" id="txtID" value="">
+                    <div class="col-md-6">
+                        <label for="inputemail" class="form-label">Plate No</label>
+                        <input type="text" class="form-control" id="txtPlateno" value="" placeholder="XXX-XXXX">
                     </div>
-                    <div class="col-md-3">
-                        <label for="inputbranch" class="form-label">Branch</label>
-                        <input type="text" class="form-control" id="txtBranch" value="">
+                    <div class="col-md-6">
+                        <label for="inputpass" class="form-label">Category ID</label>
+                        <input type="number" class="form-control" id="txtCID" value="" min="1" max="5">
                     </div>
-                    <div class="col-md-3">
-                        <label for="inputdrivers" class="form-label">No Of Drivers</label>
-                        <input type="number" class="form-control" id="txtNoOfDrivers" min="0" value="">
+                    <div class="col-md-6">
+                        <label for="inputname" class="form-label">Driver Name</label>
+                        <input type="text" class="form-control" id="txtName" value="" placeholder="Abdulaziz Roshan" disabled>
                     </div>
-                    <div class="col-md-3">
-                        <label for="inputcustomers" class="form-label">No Of Customers</label>
-                        <input type="number" class="form-control" id="txtNoOfCustomers" min="0" value="">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="inputadmins" class="form-label">No Of Admins</label>
-                        <input type="number" class="form-control" id="txtNoOfAdmins" min="0" value="">
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label for="inputtrips" class="form-label">No Of Trips</label>
-                        <input type="number" class="form-control" id="txtNoOfTrips" min="0" value="">
+                        <input type="number" class="form-control" id="txtNoOfTrips" value="">
                     </div>
-                    <div class="col-md-6" style="padding-top: 33px">
-                        <button type="button" class="btn btn-warning" name="btnSearch" onclick="getBranch()">Search</button>
-                        <button type="button" class="btn btn-success" name="btnInsert" onclick="addBranch()">Insert</button>
-                        <button type="button" class="btn btn-info" name="btnUpdate" onclick="updateBranch()">Update</button>
-                        <button type="button" class="btn btn-danger" name="btnDelete" onclick="deleteBranch()">Delete</button>
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-warning" name="btnSearch" onclick="getVehicle()">Search</button>
+                        <button type="button" class="btn btn-success" name="btnInsert" onclick="addVehicle()">Insert</button>
+                        <button type="button" class="btn btn-info" name="btnUpdate" onclick="updateVehicle()">Update</button>
+                        <button type="button" class="btn btn-danger" name="btnDelete" onclick="deleteVehicle()">Delete</button>
                     </div>
                 </form>
 
                 <script>
-                    const burl = "http://localhost:8080/gocheeta-rest/branch/"; 
-                    function getBranch() {
-                        let id = document.getElementById("txtID").value;
+                    const vurl = "http://localhost:8080/gocheeta-rest/vehicle/"; 
+                    function getVehicle() {
+                        let plateno = document.getElementById("txtPlateno").value;
                         const options = {
                             method: "GET"
                         };
-                        fetch(burl + id, options)
+                        fetch(vurl + plateno, options)
                                 .then(res => res.json()) //covert response to json
                                 .then(data => {
-                                    document.getElementById("txtID").value = data.id;
-                                    document.getElementById("txtBranch").value = data.name;
-                                    document.getElementById("txtNoOfDrivers").value = data.noOfDrivers;
-                                    document.getElementById("txtNoOfCustomers").value = data.noOfCustomers;
-                                    document.getElementById("txtNoOfAdmins").value = data.noOfAdmins;
+                                    document.getElementById("txtCID").value = data.categoryId;
+                                    document.getElementById("txtName").value = data.driverName;
                                     document.getElementById("txtNoOfTrips").value = data.noOfTrips;
                         });   
                     }
                     
-                    function addBranch() {
-                        alert("This permission is restricted")
+                    function addVehicle() {
+                        const person = {
+                            "plateno" : document.getElementById("txtPlateno").value,
+                            "categoryId" : parseInt(document.getElementById("txtCID").value),
+                            "driverName" : document.getElementById("txtName").value,
+                            "noOfTrips" : parseInt(document.getElementById("txtNoOfTrips").value)
+                        };
+                        const options = {
+                            method: "POST",
+                            headers: {
+                                "content-type" : "application/json"
+                            },
+                            body: JSON.stringify(person)
+                        };
+                        fetch(vurl, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/vehicles.jsp");
+                        alert("New Vehicle Record Added Successfully")
                     }
                     
-                    function updateBranch() {
+                    function updateVehicle() {
                         const person = {
-                            "id" : parseInt(document.getElementById("txtID").value),
-                            "name" : document.getElementById("txtBranch").value,
-                            "noOfDrivers" : parseInt(document.getElementById("txtNoOfDrivers").value),
-                            "noOfCustomers" : parseInt(document.getElementById("txtNoOfCustomers").value),
-                            "noOfAdmins" : parseInt(document.getElementById("txtNoOfAdmins").value),
+                            "plateno" : document.getElementById("txtPlateno").value,
+                            "categoryId" : parseInt(document.getElementById("txtCID").value),
+                            "driverName" : document.getElementById("txtName").value,
                             "noOfTrips" : parseInt(document.getElementById("txtNoOfTrips").value)
                         };
                         const options = {
@@ -258,17 +251,22 @@
                             },
                             body: JSON.stringify(person)
                         };
-                        fetch(burl, options);
-                        window.location.assign("http://localhost:8080/gocheeta-client/admin/branches.jsp");
-                        alert("Branch Record Updated Successfully");
+                        fetch(vurl, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/vehicles.jsp");
+                        alert("Vehicle Record Updated Successfully")
                     }
             
-                    function deleteBranch() {
-                        alert("This permission is restricted");
+                    function deleteVehicle() {
+                        let plateno = document.getElementById("txtPlateno").value;
+                        const options = {
+                            method: "DELETE"
+                        };
+                        fetch(vurl + plateno, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/vehicles.jsp");
+                        alert("Vehicle Record Deleted Successfully")
                     }
                 </script>              
             </nav>
-            
         </div>
     </div>
 

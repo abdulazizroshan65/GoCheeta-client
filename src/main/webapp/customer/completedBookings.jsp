@@ -6,6 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    
+    String customerEmail = "";
+    
+    for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("CUSTOMEREMAIL")) {
+            customerEmail = cookie.getValue();
+        }
+    }   
+
+%>
 <html>
     <head>
         <title>GoCheeta - Completed Bookings</title>
@@ -23,8 +34,25 @@
 		<div class="p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/user.jpg);"></a>
                     <div style="text-align: center;">
-                        <a href="#">Abdulaziz Roshan</a>
-                        <p>abdulazizroshan@gmail.com</p>
+                        <a href="#" id="username">
+                            <script>
+                                addEventListener('load', (event) => {
+                                    getUsername();
+                                });                 
+                                function getUsername(){
+                                    const curl = "http://localhost:8080/gocheeta-rest/customers/<%= customerEmail %>";
+                                    const options = {
+                                        method: "GET"
+                                    };
+                                    fetch(curl, options)
+                                            .then(res => res.json()) //covert response to json
+                                            .then(data => {
+                                                document.getElementById("username").innerHTML = data.name;
+                                    });   
+                                }
+                            </script>
+                        </a>
+                        <p><%= customerEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>

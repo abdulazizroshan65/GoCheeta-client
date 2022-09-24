@@ -6,6 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    
+    String customerEmail = "";
+    
+    for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("CUSTOMEREMAIL")) {
+            customerEmail = cookie.getValue();
+        }
+    }   
+
+%>
 <html lang="en">
   <head>
     <title>GoCheeta Cabs - Customer</title>
@@ -23,8 +34,25 @@
 		<div class="p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/user.jpg);"></a>
                     <div style="text-align: center;">
-                        <a href="#">Abdulaziz Roshan</a>
-                        <p>abdulazizroshan@gmail.com</p>
+                        <a href="#" id="username">
+                            <script>
+                                addEventListener('load', (event) => {
+                                    getUsername();
+                                });                 
+                                function getUsername(){
+                                    const curl = "http://localhost:8080/gocheeta-rest/customers/<%= customerEmail %>";
+                                    const options = {
+                                        method: "GET"
+                                    };
+                                    fetch(curl, options)
+                                            .then(res => res.json()) //covert response to json
+                                            .then(data => {
+                                                document.getElementById("username").innerHTML = data.name;
+                                    });   
+                                }
+                            </script>
+                        </a>
+                        <p><%= customerEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li class="active">
@@ -155,17 +183,18 @@
                 </button>
             </div>
             
-            <h2 class="mb-4" style="color: #f8b739">Welcome Abdulaziz Roshan</h2>
+            <h2 class="mb-4" style="color: #f8b739">Welcome to GoCheeta</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
 	</div>
+        </div>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>        
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/popper.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    </body>
 </html>

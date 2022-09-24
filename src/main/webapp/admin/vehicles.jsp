@@ -6,6 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    
+    String adminEmail = "";
+    
+    for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("ADMINEMAIL")) {
+            adminEmail = cookie.getValue();
+        }
+    }   
+
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -23,8 +34,25 @@
 		<div class="p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/user.jpg);"></a>
                     <div style="text-align: center;">
-                        <a href="#">Abdulaziz Roshan</a>
-                        <p>abdulazizroshan@gmail.com</p>
+                        <a href="#" id="username">
+                            <script>
+                                addEventListener('load', (event) => {
+                                    getUsername();
+                                });                 
+                                function getUsername(){
+                                    const curl = "http://localhost:8080/gocheeta-rest/admins/<%= adminEmail %>";
+                                    const options = {
+                                        method: "GET"
+                                    };
+                                    fetch(curl, options)
+                                            .then(res => res.json()) //covert response to json
+                                            .then(data => {
+                                                document.getElementById("username").innerHTML = data.name;
+                                    });   
+                                }
+                            </script>
+                        </a>
+                        <p><%= adminEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
@@ -152,6 +180,99 @@
                      });  
                 }
             </script>
+            
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-radius: 10px; padding: 20px; margin-bottom: 20px">
+                <form class="row g-3">
+                    <div class="col-md-6">
+                        <label for="inputemail" class="form-label">Plate No</label>
+                        <input type="text" class="form-control" id="txtPlateno" value="" placeholder="XXX-XXXX">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputpass" class="form-label">Category ID</label>
+                        <input type="number" class="form-control" id="txtCID" value="" min="1" max="5">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputname" class="form-label">Driver Name</label>
+                        <input type="text" class="form-control" id="txtName" value="" placeholder="Abdulaziz Roshan">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputtrips" class="form-label">No Of Trips</label>
+                        <input type="number" class="form-control" id="txtNoOfTrips" value="">
+                    </div>
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-warning" name="btnSearch" onclick="getVehicle()">Search</button>
+                        <button type="button" class="btn btn-success" name="btnInsert" onclick="addVehicle()">Insert</button>
+                        <button type="button" class="btn btn-info" name="btnUpdate" onclick="updateVehicle()">Update</button>
+                        <button type="button" class="btn btn-danger" name="btnDelete" onclick="deleteVehicle()">Delete</button>
+                    </div>
+                </form>
+
+                <script>
+                    const vurl = "http://localhost:8080/gocheeta-rest/vehicle/"; 
+                    function getVehicle() {
+                        let plateno = document.getElementById("txtPlateno").value;
+                        const options = {
+                            method: "GET"
+                        };
+                        fetch(vurl + plateno, options)
+                                .then(res => res.json()) //covert response to json
+                                .then(data => {
+                                    document.getElementById("txtCID").value = data.categoryId;
+                                    document.getElementById("txtName").value = data.driverName;
+                                    document.getElementById("txtNoOfTrips").value = data.noOfTrips;
+                        });   
+                    }
+                    
+                    function addVehicle() {
+                        const person = {
+                            "plateno" : document.getElementById("txtPlateno").value,
+                            "categoryId" : parseInt(document.getElementById("txtCID").value),
+                            "driverName" : document.getElementById("txtName").value,
+                            "noOfTrips" : parseInt(document.getElementById("txtNoOfTrips").value)
+                        };
+                        const options = {
+                            method: "POST",
+                            headers: {
+                                "content-type" : "application/json"
+                            },
+                            body: JSON.stringify(person)
+                        };
+                        fetch(vurl, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/vehicles.jsp");
+                        alert("New Vehicle Record Added Successfully")
+                    }
+                    
+                    function updateVehicle() {
+                        const person = {
+                            "plateno" : document.getElementById("txtPlateno").value,
+                            "categoryId" : parseInt(document.getElementById("txtCID").value),
+                            "driverName" : document.getElementById("txtName").value,
+                            "noOfTrips" : parseInt(document.getElementById("txtNoOfTrips").value)
+                        };
+                        const options = {
+                            method: "PUT",
+                            headers: {
+                                "content-type" : "application/json"
+                            },
+                            body: JSON.stringify(person)
+                        };
+                        fetch(vurl, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/vehicles.jsp");
+                        alert("Vehicle Record Updated Successfully")
+                    }
+            
+                    function deleteVehicle() {
+                        let plateno = document.getElementById("txtPlateno").value;
+                        const options = {
+                            method: "DELETE"
+                        };
+                        fetch(vurl + plateno, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/vehicles.jsp");
+                        alert("Vehicle Record Deleted Successfully")
+                    }
+                </script>              
+            </nav>
         </div>
     </div>
 

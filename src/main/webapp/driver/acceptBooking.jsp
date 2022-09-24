@@ -34,8 +34,25 @@
 		<div class="p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/user.jpg);"></a>
                     <div style="text-align: center;">
-                        <a href="#">Abdulaziz Roshan</a>
-                        <p>abdulazizroshan@gmail.com</p>
+                        <a href="#" id="username">
+                            <script>
+                                addEventListener('load', (event) => {
+                                    getUsername();
+                                });                 
+                                function getUsername(){
+                                    const curl = "http://localhost:8080/gocheeta-rest/drivers/<%= driverEmail %>";
+                                    const options = {
+                                        method: "GET"
+                                    };
+                                    fetch(curl, options)
+                                            .then(res => res.json()) //covert response to json
+                                            .then(data => {
+                                                document.getElementById("username").innerHTML = data.name;
+                                    });   
+                                }
+                            </script>
+                        </a>
+                        <p><%= driverEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
@@ -45,16 +62,16 @@
                             <a href="#">Profile</a>
                         </li>
                         <li>
-                              <a href="#">My Vehicles</a>
+                            <a href="myvehicles.jsp">My Vehicles</a>
                         </li>
                         <li class="active">
                             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">Bookings</a>
                             <ul class="collapse list-unstyled" id="pageSubmenu">
                               <li class="active">
-                                  <a>Book a Taxi</a>
+                                  <a>Accept a Booking</a>
                               </li>
                               <li>
-                                  <a href="completedBookings.jsp">Completed</a>
+                                  <a href="completedbookings.jsp">Completed</a>
                               </li>
                               <li>
                                   <a href="cancelledBookings.jsp">Cancelled</a>
@@ -87,7 +104,7 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta - Book a Taxi</h4>
+                <h4 class="mb-4" style="padding-top: 1.5rem; padding-left: 1rem">GoCheeta - Accept a Booking</h4>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
@@ -97,7 +114,7 @@
                         <a class="nav-link" href="#">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Vehicles</a>
+                        <a class="nav-link" href="myvehicles.jsp">Vehicles</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link">Bookings</a>
@@ -171,9 +188,10 @@
                     fetch(url, options)
                             .then((response) => {
                                 if(response.status == 200) {
-                                    alert("Booking accept success");
+                                    alert("Booking Accepted Successfully");
+                                    window.location.assign("http://localhost:8080/gocheeta-client/driver/acceptBooking.jsp");
                                 } else {
-                                    alert("Booking accept failed");
+                                    alert("Booking Acceptancet Failed");
                                 }
                             })
                     //if updared successfully, need to display alert and refresh page

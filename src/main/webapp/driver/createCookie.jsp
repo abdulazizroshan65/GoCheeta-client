@@ -5,11 +5,11 @@
 --%>
 
 <%
-    Cookie adminEmail = new Cookie("DRIVEREMAIL", request.getParameter("email"));
+    Cookie driverEmail = new Cookie("DRIVEREMAIL", request.getParameter("email"));
     
-    adminEmail.setPath("/");
-    adminEmail.setMaxAge(60 * 60 * 24);
-    response.addCookie(adminEmail);
+    driverEmail.setPath("/");
+    driverEmail.setMaxAge(60 * 60 * 1);
+    response.addCookie(driverEmail);
     
     response.sendRedirect("/gocheeta-client/driver/driver.jsp");
 %>

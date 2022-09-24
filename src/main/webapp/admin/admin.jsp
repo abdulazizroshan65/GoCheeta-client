@@ -6,6 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    
+    String adminEmail = "";
+    
+    for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("ADMINEMAIL")) {
+            adminEmail = cookie.getValue();
+        }
+    }   
+
+%>
 <html lang="en">
   <head>
     <title>GoCheeta - Administrator</title>
@@ -23,8 +34,25 @@
 		<div class="p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/user.jpg);"></a>
                     <div style="text-align: center;">
-                        <a href="#">Abdulaziz Roshan</a>
-                        <p>abdulazizroshan@gmail.com</p>
+                        <a href="#" id="username">
+                            <script>
+                                addEventListener('load', (event) => {
+                                    getUsername();
+                                });                 
+                                function getUsername(){
+                                    const curl = "http://localhost:8080/gocheeta-rest/admins/<%= adminEmail %>";
+                                    const options = {
+                                        method: "GET"
+                                    };
+                                    fetch(curl, options)
+                                            .then(res => res.json()) //covert response to json
+                                            .then(data => {
+                                                document.getElementById("username").innerHTML = data.name;
+                                    });   
+                                }
+                            </script>
+                        </a>
+                        <p><%= adminEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li class="active">
@@ -167,7 +195,7 @@
                 </button>
             </div>
             
-            <h2 class="mb-4" style="color: #f8b739">Welcome Abdulaziz Roshan</h2>
+            <h2 class="mb-4" style="color: #f8b739">Welcome to GoCheeta</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </div>

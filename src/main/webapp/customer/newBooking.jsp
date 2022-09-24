@@ -34,8 +34,25 @@
 		<div class="p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/user.jpg);"></a>
                     <div style="text-align: center;">
-                        <a href="#">Abdulaziz Roshan</a>
-                        <p>abdulazizroshan@gmail.com</p>
+                        <a href="#" id="username">
+                            <script>
+                                addEventListener('load', (event) => {
+                                    getUsername();
+                                });                 
+                                function getUsername(){
+                                    const curl = "http://localhost:8080/gocheeta-rest/customers/<%= customerEmail %>";
+                                    const options = {
+                                        method: "GET"
+                                    };
+                                    fetch(curl, options)
+                                            .then(res => res.json()) //covert response to json
+                                            .then(data => {
+                                                document.getElementById("username").innerHTML = data.name;
+                                    });   
+                                }
+                            </script>
+                        </a>
+                        <p><%= customerEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
@@ -131,7 +148,7 @@
                                         });
                                         function getStreets() {
                                             const url = "http://localhost:8080/gocheeta-rest/street/";                                              
-                                            let branch = "Nugegoda"; //hardcoded search param
+                                            let branch = "Galle"; //hardcoded search param
                                             const options = {
                                                 method: "GET"
                                             };
@@ -284,23 +301,23 @@
             function newBooking(mail) {
                 const url = "http://localhost:8080/gocheeta-rest/booking";                                             
                 
-//                var pickupStreet    = $("#pickupst").val();
-//                var dropStreet      = $("#dropst").val();
+                var pickupStreet    = $("#pickupst").val();
+                var dropStreet      = $("#dropst").val();
                 
-                var pickupStreet    = "pick ";
-                var dropStreet      = "drop";
+//                var pickupStreet    = "pick ";
+//                var dropStreet      = "drop";
                 
                 const person = {
 //                    "id" : 0,
-//                    "datetime" : now(),
-                    "customerEmail" : "<%= customerEmail %>", //have to get from sessions/cookies
+                    "datetime" : "2022-09-25",
+                    "customerEmail" : "<%= customerEmail %>",
                     "driverEmail" : mail,
                     "vehicleNo" : "N/A",
                     "status" : "Pending",
                     "pickup" : pickupStreet,
                     "drop" : dropStreet,
-                    "distance" : 6,
-                    "fare" : 720,
+                    "distance" : 4,
+                    "fare" : 540,
                     "feedback" : "None"
                 };
                 const options = {

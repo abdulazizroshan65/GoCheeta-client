@@ -6,6 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    
+    String adminEmail = "";
+    
+    for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("ADMINEMAIL")) {
+            adminEmail = cookie.getValue();
+        }
+    }   
+
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -23,8 +34,25 @@
 		<div class="p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/user.jpg);"></a>
                     <div style="text-align: center;">
-                        <a href="#">Abdulaziz Roshan</a>
-                        <p>abdulazizroshan@gmail.com</p>
+                        <a href="#" id="username">
+                            <script>
+                                addEventListener('load', (event) => {
+                                    getUsername();
+                                });                 
+                                function getUsername(){
+                                    const curl = "http://localhost:8080/gocheeta-rest/admins/<%= adminEmail %>";
+                                    const options = {
+                                        method: "GET"
+                                    };
+                                    fetch(curl, options)
+                                            .then(res => res.json()) //covert response to json
+                                            .then(data => {
+                                                document.getElementById("username").innerHTML = data.name;
+                                    });   
+                                }
+                            </script>
+                        </a>
+                        <p><%= adminEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
@@ -156,6 +184,127 @@
                      });  
                 }
             </script>
+            
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-radius: 10px; padding: 20px; margin-bottom: 20px">
+                <form class="row g-3">
+                    <div class="col-md-6">
+                        <label for="inputemail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="txtEmail" value="" placeholder="xxxxxxxxxx@gmail.com">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputpass" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="txtPassword" value="" placeholder="Between 8-15 characters">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputname" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="txtName" value="" placeholder="Abdulaziz Roshan">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputbranch" class="form-label">Branch</label>
+                        <input type="text" class="form-control" id="txtBranch" value="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputtele" class="form-label">Telephone</label>
+                        <input type="tel" size="10" class="form-control" id="txtTele" value="" placeholder="0XXXXXXXXX">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputtrips" class="form-label">No Of Trips</label>
+                        <input type="number" class="form-control" id="txtTrips" min="0" value="">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputvehicles" class="form-label">No Of Vehicles</label>
+                        <input type="number" class="form-control" id="txtVehicles" min="0" value="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputstatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="txtStatus" value="">
+                    </div>
+                    <div class="col-md-6" style="padding-top: 33px">
+                        <button type="button" class="btn btn-warning" name="btnSearch" onclick="getDriver()">Search</button>
+                        <button type="button" class="btn btn-success" name="btnInsert" onclick="addDriver()">Insert</button>
+                        <button type="button" class="btn btn-info" name="btnUpdate" onclick="updateDriver()">Update</button>
+                        <button type="button" class="btn btn-danger" name="btnDelete" onclick="deleteDriver()">Delete</button>
+                    </div>
+                </form>
+
+                <script>
+                    const durl = "http://localhost:8080/gocheeta-rest/drivers/"; 
+                    function getDriver() {
+                        let email = document.getElementById("txtEmail").value;
+                        const options = {
+                            method: "GET"
+                        };
+                        fetch(durl + email, options)
+                                .then(res => res.json()) //covert response to json
+                                .then(data => {
+                                    document.getElementById("txtPassword").value = data.password;
+                                    document.getElementById("txtName").value = data.name;
+                                    document.getElementById("txtBranch").value = data.branch;
+                                    document.getElementById("txtTele").value = data.telephone;
+                                    document.getElementById("txtStatus").value = data.status;
+                                    document.getElementById("txtTrips").value = data.noOfTrips;
+                                    document.getElementById("txtVehicles").value = data.noOfVehicles;
+                        });   
+                    }
+                    
+                    function addDriver() {
+                        const person = {
+                            "email" : document.getElementById("txtEmail").value,
+                            "password" : document.getElementById("txtPassword").value,
+                            "name" : document.getElementById("txtName").value,
+                            "branch" : document.getElementById("txtBranch").value,
+                            "telephone" : document.getElementById("txtTele").value,
+                            "status" : document.getElementById("txtStatus").value,
+                            "noOfTrips" : parseInt(document.getElementById("txtTrips").value),
+                            "noOfVehicles" : parseInt(document.getElementById("txtVehicles").value)
+                        };
+                        const options = {
+                            method: "POST",
+                            headers: {
+                                "content-type" : "application/json"
+                            },
+                            body: JSON.stringify(person)
+                        };
+                        fetch(durl, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/driverAcc.jsp");
+                        alert("New Driver Record Added Successfully")
+                    }
+                    
+                    function updateDriver() {
+                        const person = {
+                            "email" : document.getElementById("txtEmail").value,
+                            "password" : document.getElementById("txtPassword").value,
+                            "name" : document.getElementById("txtName").value,
+                            "branch" : document.getElementById("txtBranch").value,
+                            "telephone" : document.getElementById("txtTele").value,
+                            "noOfTrips" : parseInt(document.getElementById("txtTrips").value),
+                            "status" : document.getElementById("txtStatus").value,
+                            "noOfVehicles" : parseInt(document.getElementById("txtVehicles").value)
+                        };
+                        const options = {
+                            method: "PUT",
+                            headers: {
+                                "content-type" : "application/json"
+                            },
+                            body: JSON.stringify(person)
+                        };
+                        fetch(durl, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/driverAcc.jsp");
+                        alert("Driver Record Updated Successfully")
+                    }
+            
+                    function deleteDriver() {
+                        let email = document.getElementById("txtEmail").value;
+                        const options = {
+                            method: "DELETE"
+                        };
+                        fetch(durl + email, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/driverAcc.jsp");
+                        alert("Driver Record Deleted Successfully")
+                    }
+                </script>              
+            </nav>
+            
         </div>
     </div>
 

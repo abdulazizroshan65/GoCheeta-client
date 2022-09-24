@@ -6,6 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    
+    String adminEmail = "";
+    
+    for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("ADMINEMAIL")) {
+            adminEmail = cookie.getValue();
+        }
+    }   
+
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -23,8 +34,25 @@
 		<div class="p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/user.jpg);"></a>
                     <div style="text-align: center;">
-                        <a href="#">Abdulaziz Roshan</a>
-                        <p>abdulazizroshan@gmail.com</p>
+                        <a href="#" id="username">
+                            <script>
+                                addEventListener('load', (event) => {
+                                    getUsername();
+                                });                 
+                                function getUsername(){
+                                    const curl = "http://localhost:8080/gocheeta-rest/admins/<%= adminEmail %>";
+                                    const options = {
+                                        method: "GET"
+                                    };
+                                    fetch(curl, options)
+                                            .then(res => res.json()) //covert response to json
+                                            .then(data => {
+                                                document.getElementById("username").innerHTML = data.name;
+                                    });   
+                                }
+                            </script>
+                        </a>
+                        <p><%= adminEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
@@ -152,6 +180,99 @@
                      });  
                 }
             </script>
+            
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-radius: 10px; padding: 20px; margin-bottom: 20px">
+                <form class="row g-3">
+                    <div class="col-md-6">
+                        <label for="inputemail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="txtEmail" value="" placeholder="xxxxxxxxxx@gmail.com">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputpass" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="txtPassword" value="" placeholder="Between 8-15 characters">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputname" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="txtName" value="" placeholder="Abdulaziz Roshan">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputbranch" class="form-label">Branch</label>
+                        <input type="text" class="form-control" id="txtBranch" value="">
+                    </div>
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-warning" name="btnSearch" onclick="getAdmin()">Search</button>
+                        <button type="button" class="btn btn-success" name="btnInsert" onclick="addAdmin()">Insert</button>
+                        <button type="button" class="btn btn-info" name="btnUpdate" onclick="updateAdmin()">Update</button>
+                        <button type="button" class="btn btn-danger" name="btnDelete" onclick="deleteAdmin()">Delete</button>
+                    </div>
+                </form>
+
+                <script> 
+                    const aurl = "http://localhost:8080/gocheeta-rest/admins/";  
+                    function getAdmin() {
+                        let email = document.getElementById("txtEmail").value;
+                        const options = {
+                            method: "GET"
+                        };
+                        fetch(aurl + email, options)
+                                .then(res => res.json()) //covert response to json
+                                .then(data => {
+                                    document.getElementById("txtPassword").value = data.password;
+                                    document.getElementById("txtName").value = data.name;
+                                    document.getElementById("txtBranch").value = data.branch;
+                        });   
+                    }
+                    
+                    function addAdmin() {
+                        const person = {
+                            "email" : document.getElementById("txtEmail").value,
+                            "password" : document.getElementById("txtPassword").value,
+                            "name" : document.getElementById("txtName").value,
+                            "branch" : document.getElementById("txtBranch").value
+                        };
+                        const options = {
+                            method: "POST",
+                            headers: {
+                                "content-type" : "application/json"
+                            },
+                            body: JSON.stringify(person)
+                        };
+                        fetch(aurl, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/adminAcc.jsp");
+                        alert("New Admin Record Added Successfully")
+                    }
+                    
+                    function updateAdmin() {
+                        const person = {
+                            "email" : document.getElementById("txtEmail").value,
+                            "password" : document.getElementById("txtPassword").value,
+                            "name" : document.getElementById("txtName").value,
+                            "branch" : document.getElementById("txtBranch").value
+                        };
+                        const options = {
+                            method: "PUT",
+                            headers: {
+                                "content-type" : "application/json"
+                            },
+                            body: JSON.stringify(person)
+                        };
+                        fetch(aurl, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/adminAcc.jsp");
+                        alert("Admin Record Updated Successfully")
+                    }
+            
+                    function deleteAdmin() {
+                        let email = document.getElementById("txtEmail").value;
+                        const options = {
+                            method: "DELETE"
+                        };
+                        fetch(aurl + email, options);
+                        window.location.assign("http://localhost:8080/gocheeta-client/admin/adminAcc.jsp");
+                        alert("Admin Record Deleted Successfully")
+                    }
+                </script>              
+            </nav>
         </div>
     </div>
 

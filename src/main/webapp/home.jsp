@@ -50,7 +50,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                          <form class="row g-3" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                          <form class="row g-3" method="post">
                               <div class="col-12">
                                   <label for="inputfname" class="form-label">Full Name</label>
                                   <input type="text" class="form-control" name="txtfname" id="txtfname" placeholder="Abdulaziz Roshan" value="">
@@ -203,76 +203,88 @@
                 const options = {
                     method: "GET"
                 };
-                if(document.getElementById('customer').checked) {   
-                    acc = "customer";
-                    const url = "http://localhost:8080/gocheeta-rest/customers/"; 
-                    fetch(url + email, options)
-                        .then(res => res.json()) //covert response to json
-                        .then(data => {
-                            if (passw = data.password){
-                                window.location.replace("http://localhost:8080/gocheeta-client/customer/createCookie.jsp?email="+data.email);
-                            } else {
-                                alert("Customer login failed");
-                            }
-                        }); 
-                }else if(document.getElementById('driver').checked) {   
-                    acc = "driver";
-                    const url = "http://localhost:8080/gocheeta-rest/drivers/";                     
-                    fetch(url + email, options)
-                        .then(res => res.json()) //covert response to json
-                        .then(data => {
-                            if (passw = data.password){
-                                window.location.replace("http://localhost:8080/gocheeta-client/driver/createCookie.jsp?email="+data.email);
-                            } else {
-                                alert("Driver login failed");
-                            }
-                        }); 
-                }else if(document.getElementById('admin').checked) {   
-                    acc = "admin";
-                    const url = "http://localhost:8080/gocheeta-rest/admins/";                      
-                    fetch(url + email, options)
-                        .then(res => res.json()) //covert response to json
-                        .then(data => {
-                            if (passw = data.password){
-                                window.location.replace("http://localhost:8080/gocheeta-client/cookie/admin/create.jsp?email="+data.email);                                
-                            } else  {
-                                alert("Admin login failed");
-                            }
-                        }); 
+                
+                if((email != "") && (passw != "")){
+                    if(document.getElementById('customer').checked) {   
+                        acc = "customer";
+                        const url = "http://localhost:8080/gocheeta-rest/customers/"; 
+                        fetch(url + email, options)
+                            .then(res => res.json()) //covert response to json
+                            .then(data => {
+                                if ((passw == data.password) && (email == data.email)){
+                                    window.location.replace("http://localhost:8080/gocheeta-client/customer/createCookie.jsp?email="+data.email);
+                                } else {
+                                    alert("Customer login failed. Invalid login details");
+                                }
+                            }); 
+                    }else if(document.getElementById('driver').checked) {   
+                        acc = "driver";
+                        const url = "http://localhost:8080/gocheeta-rest/drivers/";                     
+                        fetch(url + email, options)
+                            .then(res => res.json()) //covert response to json
+                            .then(data => {
+                                if ((passw == data.password) && (email == data.email)){
+                                    window.location.replace("http://localhost:8080/gocheeta-client/driver/createCookie.jsp?email="+data.email);
+                                } else {
+                                    alert("Driver login failed. Invalid login details");
+                                }
+                            }); 
+                    }else if(document.getElementById('admin').checked) {   
+                        acc = "admin";
+                        const url = "http://localhost:8080/gocheeta-rest/admins/";                      
+                        fetch(url + email, options)
+                            .then(res => res.json()) //covert response to json
+                            .then(data => {
+                                if ((passw == data.password) && (email == data.email)){
+                                    window.location.replace("http://localhost:8080/gocheeta-client/admin/create.jsp?email="+data.email);                                
+                                } else  {
+                                    alert("Admin login failed. Invalid login details");
+                                }
+                            }); 
+                    }else{
+                        alert("Please select the account type to proceed");
+                    }  
                 }else{
-                    alert("Please select the account type to proceed");
-                }  
+                    alert("Please fill all the required fields");
+                }    
             } 
             
             function signup(){
-//                validate telephone & password inputs
-                const curl = "http://localhost:8080/gocheeta-rest/customers/";                
-                const person = {
-                    "email" : document.getElementById("txtemail").value,
-                    "password" : document.getElementById("txtpass").value,
-                    "name" : document.getElementById("txtfname").value,
-                    "branch" : document.getElementById("branch").value,
-                    "telephone" : document.getElementById("telephone").value,
-                    "noOfTrips" : 0,
-                    "status" : "Free"
-                };
-                
-                const options = {
-                    method: "POST",
-                    headers: {
-                        "content-type" : "application/json"
-                    },
-                    body: JSON.stringify(person)
-                };
-                fetch(curl, options)
-                        .then((response) => {
-                            if(response.status == 200) {
-                                alert("User Sign up completed");
-                            } else {
-                                alert("User Sign up failed");
-                            }
-                })
-                        
+                let pass = document.getElementById("txtpass").value;
+                let telep = document.getElementById("telephone").value;
+                if(telep.length == 10){
+                    if((pass.length>=8) && (pass.length<=10)){
+                        const curl = "http://localhost:8080/gocheeta-rest/customers/";                
+                        const person = {
+                            "email" : document.getElementById("txtemail").value,
+                            "password" : document.getElementById("txtpass").value,
+                            "name" : document.getElementById("txtfname").value,
+                            "branch" : document.getElementById("branch").value,
+                            "telephone" : document.getElementById("telephone").value,
+                            "noOfTrips" : 0,
+                            "status" : "Free"
+                        };
+                        const options = {
+                            method: "POST",
+                            headers: {
+                                "content-type" : "application/json"
+                            },
+                            body: JSON.stringify(person)
+                        };
+                        fetch(curl, options)
+                                .then((response) => {
+                                    if(response.status == 200) {
+                                        alert("User Sign up completed");
+                                    } else {
+                                        alert("User Sign up failed");
+                                    }
+                        })
+                    }else{
+                        alert("Password must be between 8 - 15 characters");
+                    }  
+                }else{
+                    alert("Invalid telephone number. Please try again");
+                }       
             }
         </script>
         

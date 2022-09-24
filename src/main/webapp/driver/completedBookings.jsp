@@ -6,6 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    
+    String driverEmail = "";
+    
+    for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("DRIVEREMAIL")) {
+            driverEmail = cookie.getValue();
+        }
+    }   
+
+%>
 <html>
     <head>
         <title>GoCheeta - Driver</title>
@@ -23,8 +34,25 @@
 		<div class="p-4 pt-5">
                     <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/user.jpg);"></a>
                     <div style="text-align: center;">
-                        <a href="#">Abdulaziz Roshan</a>
-                        <p>abdulazizroshan@gmail.com</p>
+                        <a href="#" id="username">
+                            <script>
+                                addEventListener('load', (event) => {
+                                    getUsername();
+                                });                 
+                                function getUsername(){
+                                    const curl = "http://localhost:8080/gocheeta-rest/drivers/<%= driverEmail %>";
+                                    const options = {
+                                        method: "GET"
+                                    };
+                                    fetch(curl, options)
+                                            .then(res => res.json()) //covert response to json
+                                            .then(data => {
+                                                document.getElementById("username").innerHTML = data.name;
+                                    });   
+                                }
+                            </script>
+                        </a>
+                        <p><%= driverEmail %></p>
                     </div>
                     <ul class="list-unstyled components mb-5">
                         <li>
@@ -34,13 +62,13 @@
                             <a href="#">Profile</a>
                         </li>
                         <li>
-                              <a href="#">My Vehicles</a>
+                              <a href="myvehicles.jsp">My Vehicles</a>
                         </li>
                         <li  class="active">
                             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">Bookings</a>
                             <ul class="collapse list-unstyled" id="pageSubmenu">
                               <li>
-                                  <a href="acceptBooking.jsp">Book a Taxi</a>
+                                  <a href="acceptBooking.jsp">Accept a Booking</a>
                               </li>
                               <li class="active">
                                   <a href="completedbookings.jsp">Completed</a>
@@ -86,7 +114,7 @@
                         <a class="nav-link" href="#">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Vehicles</a>
+                        <a class="nav-link" href="myvehicles.jsp">Vehicles</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="acceptBooking.jsp">Bookings</a>
